@@ -1,0 +1,87 @@
+:root {
+  /* Default dark theme variables */
+  --general-bg: #4444444D;
+  --menu-bg: #FFFFFF08;
+  --popover-bg: rgba(32, 32, 32, 0.85);
+  --taskbar-backdrop-filter: blur(35px);
+  --wallpaper: url('../images/wallpaper-dark.png');
+  --text-color: #FFFFFF;
+  --text-color-secondary: rgba(255, 255, 255, 0.78);
+  --icon-hover-bg: rgba(255, 255, 255, 0.1);
+  --icon-active-bg: rgba(255, 255, 255, 0.2);
+  --divider-color: rgba(255, 255, 255, 0.08);
+  --slider-bg: rgba(255, 255, 255, 0.3);
+  --slider-active: #0078D4;
+  --shadow-color: rgba(0, 0, 0, 0.4);
+  
+}
+
+[data-theme='light'] {
+  --general-bg: #CAD4E7;
+  --menu-bg: #CAD4E7;
+  --popover-bg: rgba(255, 255, 255, 0.85);
+  --taskbar-backdrop-filter: none;
+  --wallpaper: url('../images/wallpaper-light.png');
+  --text-color: rgba(0, 0, 0, 0.89);
+  --text-color-secondary: rgba(0, 0, 0, 0.64);
+  --icon-hover-bg: rgba(0, 0, 0, 0.05);
+  --icon-active-bg: rgba(0, 0, 0, 0.1);
+  --divider-color: rgba(0, 0, 0, 0.08);
+  --slider-bg: rgba(0, 0, 0, 0.2);
+  --slider-active: #0078D4;
+  --shadow-color: rgba(0, 0, 0, 0.2);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #000;
+  user-select: none;
+  overflow: hidden;
+  color: var(--text-color);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.fui-Popover__surface {
+  background-color: var(--popover-bg) !important;
+  border-radius: 8px !important;
+  border: none !important;
+  backdrop-filter: blur(35px);
+  box-shadow: 0 10px 25px var(--shadow-color) !important;
+  overflow: hidden !important;
+}
+
+.fui-Slider__thumb {
+  background-color: var(--slider-active) !important;
+}
+
+.fui-Slider__rail {
+  background-color: var(--slider-bg) !important;
+}
+
+.fui-Slider__track {
+  background-color: var(--slider-active) !important;
+}
+
+/* Make switch more Windows 11 like */
+.fui-Switch {
+  --switch-indicator-size: 16px;
+  --switch-track-height: 20px;
+  --switch-track-width: 40px;
+}
+
+.fui-Switch__indicator {
+  background-color: white !important;
+}
+
+.fui-Switch__track {
+  background-color: var(--slider-bg) !important;
+}
+
+.fui-Switch__track[data-checked='true'] {
+  background-color: var(--slider-active) !important;
+}

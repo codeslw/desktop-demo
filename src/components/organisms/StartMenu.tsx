@@ -9,12 +9,12 @@ interface StartMenuProps {
 
 const useStyles = makeStyles({
   overlay: {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: 900
+    // position: 'fixed',
+    // top: 0,
+    // left: 0,
+    // right: 0,
+    // bottom: 0,
+    // zIndex: 900
   },
   startMenu: {
     position: 'fixed',
@@ -24,7 +24,7 @@ const useStyles = makeStyles({
     width: '660px',
     height: '700px',
     backgroundColor: 'var(--menu-bg)',
-    backdropFilter: 'var(--taskbar-backdrop-filter)',
+    // backdropFilter: 'var(--taskbar-backdrop-filter)',
     ...shorthands.borderRadius('8px'),
     ...shorthands.padding('16px', '24px', '28px', '24px'),
     zIndex: 1000,

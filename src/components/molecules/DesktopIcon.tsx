@@ -4,6 +4,7 @@ import { DesktopIcon as IconType } from '../../types';
 import { useDrag } from 'react-dnd';
 import { memo, useRef, useState, useEffect } from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useWindowContext } from '../../contexts/WindowContext';
 
 const useStyles = makeStyles({
   container: {
@@ -61,6 +62,7 @@ export const DesktopIcon = memo(({ icon, onDrop }: DesktopIconProps) => {
   const { theme } = useTheme();
   const iconRef = useRef<HTMLDivElement>(null);
   const [isSelected, setIsSelected] = useState(false);
+  const { openWindow } = useWindowContext();
   
   // Listen to desktop background clicks to deselect the icon
   useEffect(() => {
@@ -107,7 +109,13 @@ export const DesktopIcon = memo(({ icon, onDrop }: DesktopIconProps) => {
 
   const handleDoubleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    console.log(`Open ${icon.name}`);
+    
+    if (icon.id === 'thispc') {
+      openWindow('thispc', 'This PC');
+    } else {
+      console.log(`Open ${icon.name}`);
+    }
+    
     setIsSelected(false);
   };
 

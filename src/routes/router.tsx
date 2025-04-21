@@ -25,6 +25,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'folder/:folderId',
+        //@ts-ignore
         element: <FolderWindow />
       },
       {

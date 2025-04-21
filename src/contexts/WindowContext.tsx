@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // Snap regions for Windows 11 style multitasking
 export enum SnapRegion {
@@ -72,6 +73,8 @@ export const WindowProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     width: window.innerWidth,
     height: window.innerHeight - 48, // Adjust for taskbar
   });
+
+  const navigate = useNavigate();
   
   // Update viewport size on window resize
   useEffect(() => {
@@ -88,6 +91,7 @@ export const WindowProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const getWindowById = useCallback((id: string) => {
     return windows.find(w => w.id === id);
+
   }, [windows]);
 
   const openWindow = useCallback((id: string, title: string, options?: Partial<WindowState>) => {
@@ -137,6 +141,7 @@ export const WindowProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const closeWindow = useCallback((id: string) => {
     setWindows(prev => prev.filter(w => w.id !== id));
+    navigate('/');
   }, []);
 
   const minimizeWindow = useCallback((id: string) => {

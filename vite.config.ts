@@ -17,6 +17,7 @@ export default defineConfig({
   },
   build: {
     sourcemap: true,
+    assetsDir: 'src/assets',
     minify: 'esbuild'
   },
   assetsInclude : ["**/*.png", "**/*.jpg", "**/*.jpeg", "**/*.gif", "**/*.svg", "**/*.webp"]

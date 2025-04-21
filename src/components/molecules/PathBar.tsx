@@ -1,109 +1,146 @@
-import { makeStyles, shorthands } from '@fluentui/react-components';
-import { memo } from 'react';
-import { Home24Regular } from '@fluentui/react-icons';
+import { makeStyles, shorthands, mergeClasses } from '@fluentui/react-components';
+import { ChevronRight16Regular } from '@fluentui/react-icons';
+import { useState, useRef, useEffect } from 'react';
 
 interface PathBarProps {
   path: string;
-  onNavigate?: (path: string) => void;
+  onNavigate: (path: string) => void;
 }
 
 const useStyles = makeStyles({
-  addressBar: {
+  container: {
     display: 'flex',
     alignItems: 'center',
-    height: '44px',
     backgroundColor: 'var(--window-addressbar-bg)',
+    height: '40px',
+    ...shorthands.padding('0', '12px'),
     ...shorthands.borderBottom('1px', 'solid', 'var(--window-border)'),
-    ...shorthands.padding('0', '16px'),
+    whiteSpace: 'nowrap',
+    fontSize: '14px',
+    overflowX: 'auto',
+    scrollbarWidth: 'none',
+    '::-webkit-scrollbar': {
+      display: 'none'
+    }
   },
-  addressBarPath: {
+  breadcrumb: {
     display: 'flex',
     alignItems: 'center',
-    ...shorthands.gap('4px'),
-    flexGrow: 1,
-    ...shorthands.padding('8px', '10px'),
-    backgroundColor: 'var(--window-bg)',
-    ...shorthands.borderRadius('6px'),
-    ...shorthands.border('1px', 'solid', 'var(--window-border)'),
-    transition: 'border-color 0.15s ease',
+    flexShrink: 0,
+  },
+  crumbSegment: {
+    ...shorthands.padding('4px', '8px'),
+    ...shorthands.borderRadius('4px'),
+    cursor: 'pointer',
     '&:hover': {
-      ...shorthands.borderColor('var(--window-accent)'),
+      backgroundColor: 'var(--window-item-hover-bg)',
     },
+    transition: 'background-color 0.1s ease',
+    display: 'flex',
+    alignItems: 'center',
+    height: '28px',
+  },
+  root: {
+    display: 'flex',
+    alignItems: 'center',
+    ...shorthands.padding('4px', '8px'),
+    ...shorthands.borderRadius('4px'),
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: 'var(--window-item-hover-bg)',
+    },
+    transition: 'background-color 0.1s ease',
+    height: '28px',
+  },
+  separator: {
+    display: 'flex',
+    alignItems: 'center',
+    color: 'var(--text-color-secondary)',
+    ...shorthands.padding('0', '2px'),
+    flexShrink: 0,
   },
   folderIcon: {
-    width: '18px',
-    height: '18px',
-    ...shorthands.margin('0', '8px', '0', '0'),
+    width: '16px',
+    height: '16px',
+    marginRight: '6px',
   },
-  pathPart: {
-    display: 'flex',
-    alignItems: 'center',
-    ...shorthands.gap('4px'),
-    cursor: 'pointer',
-    ...shorthands.padding('2px', '6px'),
-    ...shorthands.borderRadius('4px'),
-    '&:hover': {
-      backgroundColor: 'var(--icon-hover-bg)',
-    },
-  },
-  pathSeparator: {
-    ...shorthands.margin('0', '4px'),
-    color: 'var(--text-color-secondary)',
-  },
-  homeIcon: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: 'var(--text-color)',
+  active: {
+    backgroundColor: 'var(--icon-hover-bg)',
+    fontWeight: '500',
   }
 });
 
-export const PathBar = memo(({ path, onNavigate }: PathBarProps) => {
+export const PathBar = ({ path, onNavigate }: PathBarProps) => {
   const styles = useStyles();
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
   
-  // Split path into parts to display with separators
-  const pathParts = path.split('/').filter(part => part);
+  // Parse the path into segments
+  const segments = path ? path.split('/').filter(Boolean) : [];
   
-  // Function to handle breadcrumb navigation
-  const handlePartClick = (index: number) => {
-    if (!onNavigate) return;
-    
-    if (index === -1) {
-      // Home/root navigation
+  // Add "This PC" as the root when path is empty or at the root level
+  const effectiveSegments = segments.length === 0 ? ['This PC'] : ['This PC', ...segments];
+  
+  // Handle click on a path segment
+  const handleClick = (index: number) => {
+    if (index === 0) {
+      // Handle clicking on "This PC"
       onNavigate('This PC');
       return;
     }
     
-    // Navigate to the path up to the clicked part
-    const targetPath = pathParts.slice(0, index + 1).join('/');
+    // Calculate the path up to the clicked segment
+    const targetPath = segments.slice(0, index).join('/');
     onNavigate(targetPath);
   };
   
+  // Check if container needs to be collapsed due to overflow
+  useEffect(() => {
+    const container = containerRef.current;
+    if (container) {
+      const isOverflowing = container.scrollWidth > container.clientWidth;
+      setIsCollapsed(isOverflowing);
+    }
+  }, [path]);
+
   return (
-    <div className={styles.addressBar}>
-      <div className={styles.addressBarPath}>
-        {/* Home icon for root */}
-        <div 
-          className={styles.pathPart} 
-          onClick={() => handlePartClick(-1)}
-          title="This PC"
-        >
-          <span className={styles.homeIcon}>
-            <Home24Regular />
-          </span>
-        </div>
-        
-        {pathParts.length === 0 ? (
-          <span className={styles.pathSeparator}>This PC</span>
-        ) : (
-          pathParts.map((part, index) => (
-            <span key={index} className={styles.pathPart} onClick={() => handlePartClick(index)}>
-              {index > 0 && <span className={styles.pathSeparator}>›</span>}
-              {part}
-            </span>
-          ))
+    <div className={styles.container} ref={containerRef}>
+      {/* Root (This PC) */}
+      <div 
+        className={mergeClasses(
+          styles.root,
+          effectiveSegments.length === 1 && styles.active
         )}
+        onClick={() => handleClick(0)}
+      >
+        <img src="/src/assets/icons/thispc.svg" alt="This PC" className={styles.folderIcon} />
+        {effectiveSegments[0]}
       </div>
+      
+      {/* Path segments */}
+      {effectiveSegments.slice(1).map((segment, index) => {
+        // Actual index in the effectiveSegments array
+        const segmentIndex = index + 1;
+        const isLast = segmentIndex === effectiveSegments.length - 1;
+        
+        return (
+          <div className={styles.breadcrumb} key={`segment-${index}`}>
+            <div className={styles.separator}>
+              <ChevronRight16Regular />
+            </div>
+            <div 
+              className={mergeClasses(
+                styles.crumbSegment,
+                isLast && styles.active
+              )}
+              onClick={() => handleClick(segmentIndex)}
+            >
+              <img src="/src/assets/icons/folders.svg" alt="Folder" className={styles.folderIcon} />
+              {segment}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
-}); 
+}; 

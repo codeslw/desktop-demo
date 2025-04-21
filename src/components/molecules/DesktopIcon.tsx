@@ -1,4 +1,4 @@
-import { makeStyles, shorthands, Text } from '@fluentui/react-components';
+import { makeStyles, shorthands, Text, mergeClasses } from '@fluentui/react-components';
 import { Icon } from '../atoms/Icon';
 import { DesktopIcon as IconType } from '../../types';
 import { useDrag } from 'react-dnd';
@@ -118,6 +118,7 @@ export const DesktopIcon = memo(({ icon, onDrop }: DesktopIconProps) => {
         isMaximized: true
       });
     } else if (icon.id === 'settings') {
+      console.log('Opening Settings window...');
       openWindow('settings', 'Settings');
     } else {
       console.log(`Open ${icon.name}`);
@@ -129,7 +130,11 @@ export const DesktopIcon = memo(({ icon, onDrop }: DesktopIconProps) => {
   return (
     <div
       ref={iconRef}
-      className={`${styles.container} ${isSelected ? styles.selected : ''} ${isDragging ? styles.dragging : ''}`}
+      className={mergeClasses(
+        styles.container,
+        isSelected && styles.selected,
+        isDragging && styles.dragging
+      )}
       style={{ 
         left: icon.position.x, 
         top: icon.position.y,

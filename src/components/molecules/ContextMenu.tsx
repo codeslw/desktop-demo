@@ -1,4 +1,4 @@
-import { makeStyles, shorthands } from '@fluentui/react-components';
+import { makeStyles, shorthands, mergeClasses } from '@fluentui/react-components';
 import { memo, useRef, useEffect } from 'react';
 
 // Create separate types for menu items and dividers
@@ -165,7 +165,11 @@ export const ContextMenu = memo(({ items, x, y, onClose }: ContextMenuProps) => 
         ) : (
           <div
             key={item.id}
-            className={`${styles.menuItem} ${item.disabled ? styles.disabled : ''} ${item.danger ? styles.danger : ''}`}
+            className={mergeClasses(
+              styles.menuItem,
+              item.disabled && styles.disabled,
+              item.danger && styles.danger
+            )}
             onClick={() => handleItemClick(item)}
           >
             <div className={styles.itemLeftSection}>

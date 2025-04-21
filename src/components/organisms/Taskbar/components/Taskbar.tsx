@@ -1,5 +1,5 @@
 import React, { memo, useState, useEffect, useRef } from 'react';
-import { useId } from '@fluentui/react-components';
+import { useId, makeStyles, shorthands, mergeClasses } from '@fluentui/react-components';
 import { TaskbarButton } from '../../../molecules/TaskbarButton';
 import { useTheme } from '../../../../contexts/ThemeContext';
 import { StartMenu } from '../../StartMenu';
@@ -155,7 +155,10 @@ export const Taskbar = memo(() => {
                 <div className={styles.rightSection}>
                     {/* Action Center trigger */}
                     <div 
-                        className={`${styles.actionCenterTrigger} action-center-trigger`}
+                        className={mergeClasses(
+                            styles.actionCenterTrigger,
+                            'action-center-trigger'
+                        )}
                         onClick={toggleActionCenter}
                     >
                         <TaskbarButton
@@ -177,7 +180,10 @@ export const Taskbar = memo(() => {
 
                     {/* Calendar trigger */}
                     <div 
-                        className={`${styles.timeSection} calendar-trigger`}
+                        className={mergeClasses(
+                            styles.timeSection,
+                            'calendar-trigger'
+                        )}
                         onClick={toggleCalendar}
                     >
                         <div className={styles.time}>{formatTime(currentTime)}</div>

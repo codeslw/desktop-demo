@@ -1,6 +1,7 @@
 import { makeStyles, shorthands } from '@fluentui/react-components';
 import { Icon } from '../atoms/Icon';
 import { memo } from 'react';
+import { useTheme } from '../../contexts/ThemeContext';
 
 export interface TaskbarButtonProps {
     icon: string;
@@ -58,11 +59,13 @@ const useStyles = makeStyles({
 export const TaskbarButton = memo(({ icon, size = "default", alt, onClick, active = false }: TaskbarButtonProps) => {
     const styles = useStyles();
     const buttonClass = active ? `${styles.button} ${styles.activeButton}` : styles.button;
-
+    
+    const {theme} = useTheme();
 
     return (
         <button className={size === "small" ? styles.smallButtonClass : buttonClass} onClick={onClick}>
-            <Icon src={icon} alt={alt} size={size === "small" ? "20px" : undefined} />
+            <Icon src={icon} alt={alt} size={size === "small" ? "20px" : undefined} 
+            iconStyles={{filter: theme === "dark" ? "invert(0)" : "invert(1)"}} />
         </button>
     );
 });

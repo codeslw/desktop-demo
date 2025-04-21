@@ -1,4 +1,4 @@
-import { makeStyles, shorthands, Input, Button, Tab, TabList, SelectTabEvent, SelectTabData } from '@fluentui/react-components';
+import { makeStyles, shorthands, Input, Button, Tab, TabList, SelectTabEvent, SelectTabData, mergeClasses } from '@fluentui/react-components';
 import { memo, useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { Window } from '../organisms/Window';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -895,7 +895,10 @@ export const Reports = memo(() => {
               placeholder="Search..." 
               value={searchText}
               onChange={(e, data) => onSearch(data.value)}
-              className={`${styles.searchInput} ${isSearching ? styles.activeSearch : ''}`}
+              className={mergeClasses(
+                styles.searchInput, 
+                isSearching && styles.activeSearch
+              )}
               contentBefore={<Search20Regular />}
               contentAfter={
                 isSearching ? 
@@ -924,7 +927,10 @@ export const Reports = memo(() => {
         
         <div className={styles.gridContainer}>
           <div 
-            className={`${styles.grid} ${getGridTheme()}`} 
+            className={mergeClasses(
+              styles.grid, 
+              getGridTheme()
+            )}
             style={{ width: '100%', height: '100%' }}
           >
             <AgGridReact

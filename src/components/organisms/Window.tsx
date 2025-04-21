@@ -1,4 +1,4 @@
-import { Button, makeStyles, shorthands } from '@fluentui/react-components';
+import { Button, makeStyles, shorthands, mergeClasses } from '@fluentui/react-components';
 import { memo, useState, useRef, useEffect } from 'react';
 import { useWindowContext, SnapRegion } from '../../contexts/WindowContext';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -483,19 +483,24 @@ export const Window = memo(({ id, title, icon, children, initialWidth, initialHe
   
   return (
     <div
+      id={`window-${id}`}
       ref={windowRef}
-      className={`${styles.window} ${windowState.isMaximized ? styles.maximized : ''} ${windowState.isMinimized ? styles.minimized : ''}`}
-      style={{
-        top: windowState.position.y,
-        left: windowState.position.x,
-        width: windowState.size.width,
-        height: windowState.size.height,
-        zIndex: windowState.zIndex,
-      }}
+      className={mergeClasses(
+        styles.window,
+        windowState?.isMaximized && styles.maximized,
+        windowState?.isMinimized && styles.minimized
+      )}
       onMouseDown={handleMouseDown}
       onClick={() => bringToFront(id)}
+      style={{
+        width: windowState?.size.width || initialWidth || 800,
+        height: windowState?.size.height || initialHeight || 600,
+        top: windowState?.position.y,
+        left: windowState?.position.x,
+        zIndex: windowState?.zIndex
+      }}
     >
-      <div 
+      <div
         ref={titleBarRef}
         className={styles.titleBar}
         onDoubleClick={handleTitleBarDoubleClick}
@@ -524,7 +529,7 @@ export const Window = memo(({ id, title, icon, children, initialWidth, initialHe
             </span>
           </Button>
           <Button
-            className={`${styles.windowButton} ${styles.closeButton}`}
+            className={mergeClasses(styles.windowButton, styles.closeButton)}
             onClick={() => closeWindow(id)}
             aria-label="Close"
           >
@@ -542,35 +547,35 @@ export const Window = memo(({ id, title, icon, children, initialWidth, initialHe
       {!windowState.isMaximized && (
         <>
           <div
-            className={`${styles.resizeHandle} ${styles.resizeN}`}
+            className={mergeClasses(styles.resizeHandle, styles.resizeN)}
             onMouseDown={(e) => handleResizeStart(e, 'n')}
           />
           <div
-            className={`${styles.resizeHandle} ${styles.resizeE}`}
+            className={mergeClasses(styles.resizeHandle, styles.resizeE)}
             onMouseDown={(e) => handleResizeStart(e, 'e')}
           />
           <div
-            className={`${styles.resizeHandle} ${styles.resizeS}`}
+            className={mergeClasses(styles.resizeHandle, styles.resizeS)}
             onMouseDown={(e) => handleResizeStart(e, 's')}
           />
           <div
-            className={`${styles.resizeHandle} ${styles.resizeW}`}
+            className={mergeClasses(styles.resizeHandle, styles.resizeW)}
             onMouseDown={(e) => handleResizeStart(e, 'w')}
           />
           <div
-            className={`${styles.resizeHandle} ${styles.resizeNE}`}
+            className={mergeClasses(styles.resizeHandle, styles.resizeNE)}
             onMouseDown={(e) => handleResizeStart(e, 'ne')}
           />
           <div
-            className={`${styles.resizeHandle} ${styles.resizeSE}`}
+            className={mergeClasses(styles.resizeHandle, styles.resizeSE)}
             onMouseDown={(e) => handleResizeStart(e, 'se')}
           />
           <div
-            className={`${styles.resizeHandle} ${styles.resizeSW}`}
+            className={mergeClasses(styles.resizeHandle, styles.resizeSW)}
             onMouseDown={(e) => handleResizeStart(e, 'sw')}
           />
           <div
-            className={`${styles.resizeHandle} ${styles.resizeNW}`}
+            className={mergeClasses(styles.resizeHandle, styles.resizeNW)}
             onMouseDown={(e) => handleResizeStart(e, 'nw')}
           />
         </>

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
 
 // Snap regions for Windows 11 style multitasking
 export enum SnapRegion {
@@ -58,6 +58,7 @@ interface WindowContextType {
   snapWindow: (id: string, region: SnapRegion) => void;
   unsnap: (id: string) => void;
   getSnapRegionFromPosition: (x: number, y: number) => SnapRegion;
+  getAllWindows: () => WindowState[];
 }
 
 const WindowContext = createContext<WindowContextType | undefined>(undefined);
@@ -67,7 +68,7 @@ let topZIndex = 100;
 
 export const WindowProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [windows, setWindows] = useState<WindowState[]>([]);
-  const [viewportSize, setViewportSize] = useState({
+  const viewportSizeRef = useRef({
     width: window.innerWidth,
     height: window.innerHeight - 48, // Adjust for taskbar
   });
@@ -75,10 +76,10 @@ export const WindowProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   // Update viewport size on window resize
   useEffect(() => {
     const handleResize = () => {
-      setViewportSize({
+      viewportSizeRef.current = {
         width: window.innerWidth,
         height: window.innerHeight - 48, // Adjust for taskbar
-      });
+      };
     };
     
     window.addEventListener('resize', handleResize);
@@ -163,13 +164,21 @@ export const WindowProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   }, []);
 
   const updateWindowPosition = useCallback((id: string, x: number, y: number, width?: number, height?: number) => {
-    setWindows(prev => prev.map(w => 
-      w.id === id ? { 
-        ...w, 
-        position: { x, y },
-        size: width && height ? { width, height } : w.size
-      } : w
-    ));
+    setWindows(prev => prev.map(w => {
+      if (w.id !== id) return w;
+      const newPosition = { x, y };
+      const newSize = width && height ? { width, height } : w.size;
+      // Skip update if nothing changed
+      if (
+        w.position.x === x &&
+        w.position.y === y &&
+        w.size.width === newSize.width &&
+        w.size.height === newSize.height
+      ) {
+        return w;
+      }
+      return { ...w, position: newPosition, size: newSize };
+    }));
   }, []);
 
   const updateWindowSize = useCallback((id: string, width: number, height: number) => {
@@ -192,7 +201,7 @@ export const WindowProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   // Function to determine the snap region based on mouse position
   const getSnapRegionFromPosition = useCallback((x: number, y: number): SnapRegion => {
-    const { width, height } = viewportSize;
+    const { width, height } = viewportSizeRef.current;
     
     // Snap edge threshold (px from screen edge) - increased for better detection
     const threshold = 30;
@@ -226,13 +235,13 @@ export const WindowProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
     
     return SnapRegion.NONE;
-  }, [viewportSize]);
+  }, []);
   
   // Snap a window to a region
   const snapWindow = useCallback((id: string, region: SnapRegion) => {
     if (region === SnapRegion.NONE) return;
     
-    const { width, height } = viewportSize;
+    const { width, height } = viewportSizeRef.current;
     
     setWindows(prev => {
       const targetWindow = prev.find(w => w.id === id);
@@ -299,7 +308,7 @@ export const WindowProvider: React.FC<{ children: React.ReactNode }> = ({ childr
           : w
       );
     });
-  }, [viewportSize]);
+  }, []);
   
   // Unsnap a window and restore its previous position
   const unsnap = useCallback((id: string) => {
@@ -337,7 +346,8 @@ export const WindowProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       // New snap functionality
       snapWindow,
       unsnap,
-      getSnapRegionFromPosition
+      getSnapRegionFromPosition,
+      getAllWindows: () => windows
     }}>
       {children}
     </WindowContext.Provider>

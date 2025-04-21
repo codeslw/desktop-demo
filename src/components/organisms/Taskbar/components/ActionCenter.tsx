@@ -174,6 +174,7 @@ export const ActionCenter: React.FC<ActionCenterProps> = ({
                             alt={action.label}
                             style={{
                                 ...iconFilter(action.active),
+                                filter: theme === "dark" || action.active ? "invert(0)" : "invert(1)",
                                 width: '16px',
                                 height: '16px'
                             }}

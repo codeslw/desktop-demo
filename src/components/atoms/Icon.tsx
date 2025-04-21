@@ -13,16 +13,17 @@ interface IconProps {
   src: string;
   alt: string;
   size?: string;
+  iconStyles?: React.CSSProperties;
 }
 
-export const Icon = memo(({ src, alt, size = '30px' }: IconProps) => {
+export const Icon = memo(({ src, alt, size = '30px', iconStyles }: IconProps) => {
   const styles = useStyles();
   return (
     <img 
       src={src} 
       alt={alt} 
       className={styles.icon} 
-      style={{ width: size, height: size }} 
+      style={{ width: size, height: size, ...iconStyles }} 
     />
   );
 });

@@ -1,4 +1,4 @@
-import { makeStyles, shorthands, Text } from '@fluentui/react-components';
+import { makeStyles, shorthands, Text, mergeClasses } from '@fluentui/react-components';
 import { memo, useState, useEffect } from 'react';
 import { Window } from '../organisms/Window';
 import { ContextMenu, ContextMenuItem } from '../molecules/ContextMenu';
@@ -8,6 +8,7 @@ import { Toolbar } from '../molecules/Toolbar';
 import { PathBar } from '../molecules/PathBar';
 import { FileItem } from '../molecules/FileItem';
 import { ArrowLeft20Regular, ArrowRight20Regular, ArrowStepBack20Regular, ArrowStepIn20Regular, ArrowUp20Regular, List20Regular, Search20Regular, Settings20Regular, Window20Regular } from '@fluentui/react-icons';
+import { DEFAULT_WINDOW_ITEMS } from '../../utils/constants';
 
 // Define folder view types
 export type FolderViewType = 'icons' | 'details' | 'tiles' | 'list';
@@ -33,6 +34,13 @@ interface FolderWindowProps {
   onOpenFolder?: (folderId: string, path: string) => void;
   onOpenFile?: (fileId: string, path: string) => void;
   onOpenFolderInNewWindow?: (folderId: string, path: string, folderItems: FolderItem[]) => void;
+}
+
+// Define a history entry type to store complete state
+interface NavigationHistoryEntry {
+  path: string;
+  items: FolderItem[];
+  title: string;
 }
 
 // Toolbar component
@@ -106,28 +114,40 @@ const Sidebar = memo(({
       <div className={styles.navSection}>
         <div className={styles.navTitle}>Quick access</div>
         <div
-          className={`${styles.navItem} ${activePath === 'This PC' ? styles.navItemActive : ''}`}
+          className={mergeClasses(
+            styles.navItem,
+            activePath === 'This PC' && styles.navItemActive
+          )}
           onClick={() => onNavigate?.('This PC')}
         >
           <img src="/src/assets/icons/thispc.svg" alt="This PC" className={styles.navIcon} />
           <span>This PC</span>
         </div>
         <div
-          className={`${styles.navItem} ${activePath === 'Desktop' ? styles.navItemActive : ''}`}
+          className={mergeClasses(
+            styles.navItem,
+            activePath === 'Desktop' && styles.navItemActive
+          )}
           onClick={() => onNavigate?.('Desktop')}
         >
           <img src="/src/assets/icons/folders.svg" alt="Desktop" className={styles.navIcon} />
           <span>Desktop</span>
         </div>
         <div
-          className={`${styles.navItem} ${activePath === 'Documents' ? styles.navItemActive : ''}`}
+          className={mergeClasses(
+            styles.navItem,
+            activePath === 'Documents' && styles.navItemActive
+          )}
           onClick={() => onNavigate?.('Documents')}
         >
           <img src="/src/assets/icons/folders.svg" alt="Documents" className={styles.navIcon} />
           <span>Documents</span>
         </div>
         <div
-          className={`${styles.navItem} ${activePath === 'Downloads' ? styles.navItemActive : ''}`}
+          className={mergeClasses(
+            styles.navItem,
+            activePath === 'Downloads' && styles.navItemActive
+          )}
           onClick={() => onNavigate?.('Downloads')}
         >
           <img src="/src/assets/icons/folders.svg" alt="Downloads" className={styles.navIcon} />
@@ -191,6 +211,7 @@ const useFolderStyles = makeStyles({
     fontSize: '13px',
     gap: '6px',
     height: '34px',
+    minWidth: 'unset'
   },
   toolbarSeparator: {
     width: '1px',
@@ -374,7 +395,7 @@ export const FolderWindow = memo(({
   onOpenFolderInNewWindow
 }: FolderWindowProps) => {
   const styles = useFolderStyles();
-  const { openWindow, getWindowById, snapWindow, getSnapRegionFromPosition, updateWindowContent } = useWindowContext();
+  const { openWindow, getWindowById, snapWindow, getSnapRegionFromPosition, updateWindowContent, getAllWindows } = useWindowContext();
 
   // State for selected items and context menu
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
@@ -389,8 +410,8 @@ export const FolderWindow = memo(({
     isVisible: false
   });
 
-  // State for navigation history
-  const [navigationHistory, setNavigationHistory] = useState<string[]>([path]);
+  // State for navigation history - store complete state
+  const [navigationHistory, setNavigationHistory] = useState<NavigationHistoryEntry[]>([]);
   const [currentHistoryIndex, setCurrentHistoryIndex] = useState(0);
   
   // State for current folder items and path
@@ -400,13 +421,50 @@ export const FolderWindow = memo(({
 
   // State for snap layout
   const [showSnapLayout, setShowSnapLayout] = useState(false);
+  
+  // Window positioning - center window if it's the first one
+  useEffect(() => {
+    const allWindows = getAllWindows();
+    // If this is the first window or there's only one window (this one), center it
+    if (allWindows.length <= 1) {
+      const windowElement = document.getElementById(`window-${id}`);
+      if (windowElement) {
+        // Get screen dimensions
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        
+        // Calculate center position
+        const left = Math.max(0, (screenWidth - initialWidth) / 2);
+        const top = Math.max(0, (screenHeight - initialHeight) / 2);
+        
+        // Update window position
+        windowElement.style.left = `${left}px`;
+        windowElement.style.top = `${top}px`;
+      }
+    }
+  }, [id, initialWidth, initialHeight, getAllWindows]);
+
+  // Initialize with provided props
+  useEffect(() => {
+    // Set current state
+    setCurrentPath(path);
+    setCurrentItems(items);
+    setCurrentTitle(title);
+    
+    // Initialize navigation history with initial state
+    setNavigationHistory([{ path, items, title }]);
+    setCurrentHistoryIndex(0);
+    
+    console.log('FolderWindow initialized with path:', path);
+  }, [path, items, title]);
 
   // Debug effect to log navigation history changes
   useEffect(() => {
-    console.log('Navigation history updated:', {
-      history: navigationHistory,
+    console.log('Navigation state updated:', {
+      history: navigationHistory.map(entry => entry.path),
       currentIndex: currentHistoryIndex,
-      currentPath
+      currentPath,
+      historyLength: navigationHistory.length
     });
   }, [navigationHistory, currentHistoryIndex, currentPath]);
 
@@ -435,180 +493,51 @@ export const FolderWindow = memo(({
     };
   }, [id]);
 
-  // Initialize with provided props
-  useEffect(() => {
-    setCurrentPath(path);
-    setCurrentItems(items);
-    setCurrentTitle(title);
-    // Initialize navigation history
-    setNavigationHistory([path]);
-    setCurrentHistoryIndex(0);
-  }, [path, items, title]);
-
   // Navigation functions
   const navigateToPath = (targetPath: string, newItems?: FolderItem[], newTitle?: string) => {
-    console.log('Navigating to:', targetPath, 'Current index:', currentHistoryIndex, 'History:', navigationHistory);
+    console.log('Navigating to:', targetPath, 'Current index:', currentHistoryIndex, 'History length:', navigationHistory.length);
+    
+    // Normalize targetPath for special paths
+    const normalizedPath = targetPath === 'This PC' ? '' : targetPath;
     
     // Check if we're navigating to the same path
-    if (targetPath === currentPath) {
+    if (normalizedPath === currentPath) {
       console.log('Already at this path, not updating history');
       return;
     }
     
-    // Only add to history if this is a new navigation (not back/forward)
-    // We determine this by checking if we're at the end of our history array
-    const isNewNavigation = currentHistoryIndex === navigationHistory.length - 1;
+    // Check if this path exists in history
+    const existingPathIndex = navigationHistory.findIndex(entry => entry.path === normalizedPath);
     
-    // Create a new history array if we're adding a new path
-    if (isNewNavigation) {
-      console.log('Adding new path to history');
-      const newHistory = [...navigationHistory.slice(0, currentHistoryIndex + 1), targetPath];
-      setNavigationHistory(newHistory);
-      setCurrentHistoryIndex(currentHistoryIndex + 1);
-    } else {
-      // If we're using back/forward navigation
-      const targetIndex = navigationHistory.indexOf(targetPath);
-      if (targetIndex >= 0) {
-        console.log('Moving to existing history index:', targetIndex);
-        setCurrentHistoryIndex(targetIndex);
-      } else {
-        // If somehow we're not at the end but the path isn't in history
-        // (shouldn't happen in normal use)
-        console.log('Path not found in history, adding as new');
-        const newHistory = [...navigationHistory.slice(0, currentHistoryIndex + 1), targetPath];
-        setNavigationHistory(newHistory);
-        setCurrentHistoryIndex(currentHistoryIndex + 1);
-      }
-    }
-    
-    // Update the current path
-    setCurrentPath(targetPath);
-    
-    // Update items
-    if (newItems) {
-      setCurrentItems(newItems);
-    } else {
-      setCurrentItems([]); // Empty if no items provided
-    }
-    
-    // Update title
-    if (newTitle) {
-      setCurrentTitle(newTitle);
-    } else {
-      // Extract title from path
-      const pathParts = targetPath.split('/').filter(Boolean);
-      const newTitleFromPath = pathParts.length > 0 ? pathParts[pathParts.length - 1] : 'This PC';
-      setCurrentTitle(newTitleFromPath);
-    }
-    
-    // Update window content
-    updateWindowContent(id, newTitle || targetPath.split('/').pop() || 'This PC', targetPath, newItems || []);
-  };
-  
-  // Handle navigation to parent directory
-  const navigateToParent = () => {
-    // Extract parent path from current path
-    const pathParts = currentPath.split('/').filter(Boolean);
-    
-    // If already at root, do nothing
-    if (pathParts.length === 0) return;
-    
-    // Remove the last part to get the parent path
-    const parentPathParts = pathParts.slice(0, pathParts.length - 1);
-    const parentPath = parentPathParts.join('/');
-    
-    // If we're navigating to root (empty path after filtering)
-    if (parentPathParts.length === 0) {
-      handleBreadcrumbNavigation('This PC');
+    if (existingPathIndex >= 0) {
+      // Path exists in history, use it directly
+      console.log('Path already exists in history at index:', existingPathIndex);
+      const historyEntry = navigationHistory[existingPathIndex];
+      setCurrentPath(historyEntry.path);
+      setCurrentItems(historyEntry.items);
+      setCurrentTitle(historyEntry.title);
+      setCurrentHistoryIndex(existingPathIndex);
+      
+      // Update window content
+      updateWindowContent(id, historyEntry.title, historyEntry.path, historyEntry.items);
       return;
     }
     
-    // Get parent folder name
-    const parentName = parentPathParts[parentPathParts.length - 1];
-    
-    // Generate items for parent directory
-    const parentItems = generateParentContents(parentPath);
-    
-    // Navigate to the parent path
-    navigateToPath(parentPath, parentItems, parentName);
-  };
-  
-  // Function to generate contents for parent directory (simplified)
-  const generateParentContents = (parentPath: string): FolderItem[] => {
-    // Create some basic content based on parent path
-    // This is a simplified example - in a real app, you'd fetch the actual contents
-    return [
-      {
-        id: `${parentPath}-subfolder1`,
-        name: 'Subfolder',
-        type: 'folder',
-        icon: '/src/assets/icons/folders.svg'
-      },
-      {
-        id: `${parentPath}-file1`,
-        name: 'Document.txt',
-        type: 'file',
-        icon: '/src/assets/icons/word.svg',
-        dateModified: 'Today'
-      }
-    ];
-  };
-  
-  // Handle back navigation
-  const handleBack = () => {
-    if (currentHistoryIndex > 0) {
-      const targetIndex = currentHistoryIndex - 1;
-      const targetPath = navigationHistory[targetIndex];
-      
-      // Generate items for the target path
-      const folderName = targetPath.split('/').pop() || 'This PC';
-      const targetItems = generateFolderContents({
-        id: `folder-${folderName}`,
-        name: folderName,
-        type: 'folder',
-        icon: '/src/assets/icons/folders.svg'
-      });
-      
-      // Update state without adding to history
-      setCurrentPath(targetPath);
-      setCurrentItems(targetItems);
-      setCurrentHistoryIndex(targetIndex);
-      
-      // Update window content
-      updateWindowContent(id, targetPath.split('/').pop() || 'This PC', targetPath, targetItems);
+    // Extract title from path or use the provided one
+    let effectiveTitle = newTitle;
+    if (!effectiveTitle) {
+      const pathParts = normalizedPath.split('/').filter(Boolean);
+      effectiveTitle = pathParts.length > 0 ? pathParts[pathParts.length - 1] : 'This PC';
     }
-  };
-  
-  // Handle forward navigation
-  const handleForward = () => {
-    if (currentHistoryIndex < navigationHistory.length - 1) {
-      const targetIndex = currentHistoryIndex + 1;
-      const targetPath = navigationHistory[targetIndex];
-      
-      // Generate items for the target path
-      const targetItems = generateFolderContents({
-        id: targetPath,
-        name: targetPath.split('/').pop() || 'This PC',
-        type: 'folder',
-        icon: '/src/assets/icons/folders.svg'
-      });
-      
-      // Update state without adding to history
-      setCurrentPath(targetPath);
-      setCurrentItems(targetItems);
-      setCurrentHistoryIndex(targetIndex);
-      
-      // Update window content
-      updateWindowContent(id, targetPath.split('/').pop() || 'This PC', targetPath, targetItems);
-    }
-  };
-  
-  // Handle breadcrumb navigation
-  const handleBreadcrumbNavigation = (targetPath: string) => {
-    // Determine if this is a real path or a special path like "This PC"
-    if (targetPath === 'This PC') {
-      // Handle root navigation
-      const rootItems: FolderItem[] = [
+    
+    // Prepare items for the new path
+    let effectiveItems: FolderItem[] = [];
+    
+    if (newItems && newItems.length > 0) {
+      effectiveItems = newItems;
+    } else if (normalizedPath === '') {
+      // Default items for root/This PC
+      effectiveItems = [
         {
           id: 'drive-c',
           name: 'Local Disk (C:)',
@@ -629,23 +558,189 @@ export const FolderWindow = memo(({
           icon: '/src/assets/icons/folders.svg'
         }
       ];
+    } else {
+      // Generate default items for the path
+      effectiveItems = [
+        {
+          id: `${normalizedPath}-subfolder1`,
+          name: 'Subfolder',
+          type: 'folder',
+          icon: '/src/assets/icons/folders.svg'
+        },
+        {
+          id: `${normalizedPath}-file1`,
+          name: 'Document.txt',
+          type: 'file',
+          icon: '/src/assets/icons/word.svg',
+          dateModified: 'Today'
+        }
+      ];
+    }
+    
+    const newHistoryEntry = { 
+      path: normalizedPath, 
+      items: effectiveItems, 
+      title: effectiveTitle 
+    };
+    
+    // Only add to history if this is a new navigation (not back/forward)
+    // We determine this by checking if we're at the end of our history array
+    const isNewNavigation = currentHistoryIndex === navigationHistory.length - 1;
+    
+    let newIndex = currentHistoryIndex;
+    
+    if (isNewNavigation) {
+      console.log('Adding new path to history');
+      // Add the new entry to history, removing any forward history
+      const newHistory = [
+        ...navigationHistory.slice(0, currentHistoryIndex + 1), 
+        newHistoryEntry
+      ];
+      setNavigationHistory(newHistory);
+      newIndex = newHistory.length - 1;
+      setCurrentHistoryIndex(newIndex);
+    } else {
+      // If we're using back/forward navigation, just update the position
+      newIndex = currentHistoryIndex + 1;
+      setCurrentHistoryIndex(newIndex);
+    }
+    
+    // Update the current state
+    setCurrentPath(normalizedPath);
+    setCurrentItems(effectiveItems);
+    setCurrentTitle(effectiveTitle);
+    
+    // Log the updated history state
+    console.log('History updated:', {
+      newEntry: newHistoryEntry,
+      newIndex: newIndex,
+      historyLength: isNewNavigation ? navigationHistory.length + 1 : navigationHistory.length
+    });
+    
+    // Update window content
+    updateWindowContent(id, effectiveTitle, normalizedPath, effectiveItems);
+  };
+  
+  // Handle back navigation
+  const handleBack = () => {
+    console.log('Back button clicked. Current index:', currentHistoryIndex, 'History length:', navigationHistory.length);
+    
+    if (currentHistoryIndex > 0) {
+      const targetIndex = currentHistoryIndex - 1;
+      const historyEntry = navigationHistory[targetIndex];
       
-      // Navigate to root
-      navigateToPath('', rootItems, 'This PC');
+      console.log('Navigating back to:', historyEntry.path, 'Index:', targetIndex, 'Entry:', historyEntry);
+      
+      // Update state directly from history - no need to regenerate items
+      setCurrentPath(historyEntry.path);
+      setCurrentItems(historyEntry.items);
+      setCurrentHistoryIndex(targetIndex);
+      setCurrentTitle(historyEntry.title);
+      
+      // Update window content
+      updateWindowContent(id, historyEntry.title, historyEntry.path, historyEntry.items);
+    } else {
+      console.log('Cannot go back - at the beginning of history');
+    }
+  };
+  
+  // Handle forward navigation
+  const handleForward = () => {
+    console.log('Forward button clicked. Current index:', currentHistoryIndex, 'History length:', navigationHistory.length);
+    
+    if (currentHistoryIndex < navigationHistory.length - 1) {
+      const targetIndex = currentHistoryIndex + 1;
+      const historyEntry = navigationHistory[targetIndex];
+      
+      console.log('Navigating forward to:', historyEntry.path, 'Index:', targetIndex, 'Entry:', historyEntry);
+      
+      // Update state directly from history - no need to regenerate items
+      setCurrentPath(historyEntry.path);
+      setCurrentItems(historyEntry.items);
+      setCurrentHistoryIndex(targetIndex);
+      setCurrentTitle(historyEntry.title);
+      
+      // Update window content
+      updateWindowContent(id, historyEntry.title, historyEntry.path, historyEntry.items);
+    } else {
+      console.log('Cannot go forward - at the end of history');
+    }
+  };
+  
+  // Handle breadcrumb navigation
+  const handleBreadcrumbNavigation = (targetPath: string) => {
+    console.log('Breadcrumb navigation to:', targetPath);
+    
+    // Check if the path exists in history
+    const normalizedPath = targetPath === 'This PC' ? '' : targetPath;
+    const existingPathIndex = navigationHistory.findIndex(entry => entry.path === normalizedPath);
+    
+    if (existingPathIndex >= 0) {
+      console.log('Breadcrumb path exists in history at index:', existingPathIndex);
+      // If the path is in history, just navigate to that index directly
+      const historyEntry = navigationHistory[existingPathIndex];
+      setCurrentPath(historyEntry.path);
+      setCurrentItems(historyEntry.items);
+      setCurrentTitle(historyEntry.title);
+      setCurrentHistoryIndex(existingPathIndex);
+      
+      // Update window content
+      updateWindowContent(id, historyEntry.title, historyEntry.path, historyEntry.items);
       return;
     }
     
-    // Generate items for the target path
-    const folderName = targetPath.split('/').pop() || '';
-    const targetItems = generateFolderContents({
-      id: `folder-${folderName}`,
-      name: folderName,
-      type: 'folder',
-      icon: '/src/assets/icons/folders.svg'
-    });
+    // If path not in history, prepare items for navigation
+    let folderItems: FolderItem[] = [];
+    let folderTitle = '';
+    
+    // Special handling for 'This PC'
+    if (normalizedPath === '') {
+      folderItems = [
+        {
+          id: 'drive-c',
+          name: 'Local Disk (C:)',
+          type: 'drive',
+          icon: '/src/assets/icons/ssd.svg',
+          size: '120 GB free of 500 GB'
+        },
+        {
+          id: 'documents',
+          name: 'Documents',
+          type: 'folder',
+          icon: '/src/assets/icons/folders.svg'
+        },
+        {
+          id: 'downloads',
+          name: 'Downloads',
+          type: 'folder',
+          icon: '/src/assets/icons/folders.svg'
+        }
+      ];
+      folderTitle = 'This PC';
+    } else {
+      // For path segments, generate items based on the target path
+      const pathSegments = normalizedPath.split('/').filter(Boolean);
+      folderTitle = pathSegments.length > 0 ? pathSegments[pathSegments.length - 1] : '';
+      
+      folderItems = [
+        {
+          id: `${normalizedPath}-subfolder1`,
+          name: 'Subfolder',
+          type: 'folder',
+          icon: '/src/assets/icons/folders.svg'
+        },
+        {
+          id: `${normalizedPath}-file1`,
+          name: 'Document.txt',
+          type: 'file',
+          icon: '/src/assets/icons/word.svg',
+          dateModified: 'Yesterday'
+        }
+      ];
+    }
     
     // Navigate to the path
-    navigateToPath(targetPath, targetItems, folderName);
+    navigateToPath(normalizedPath, folderItems, folderTitle);
   };
 
   // Handle snap selection
@@ -689,8 +784,13 @@ export const FolderWindow = memo(({
       // Generate the new path
       const newPath = currentPath ? `${currentPath}/${item.name}` : item.name;
       
-      // Navigate to the new path with generated items
+      // The key change - explicitly use navigateToPath to ensure history is updated
       navigateToPath(newPath, folderItems, item.name);
+      
+      console.log('Opened folder in current window:', {
+        path: newPath,
+        historyLength: navigationHistory.length + 1
+      });
     }
   };
 
@@ -896,6 +996,47 @@ export const FolderWindow = memo(({
   const folders = currentItems.filter(item => item.type === 'folder');
   const files = currentItems.filter(item => item.type === 'file');
 
+  // Handle navigation to parent directory
+  const navigateToParent = () => {
+    // Extract parent path from current path
+    const pathParts = currentPath.split('/').filter(Boolean);
+    
+    // If already at root, do nothing
+    if (pathParts.length === 0) return;
+    
+    // Remove the last part to get the parent path
+    const parentPathParts = pathParts.slice(0, pathParts.length - 1);
+    const parentPath = parentPathParts.join('/');
+    
+    // If we're navigating to root (empty path after filtering)
+    if (parentPathParts.length === 0) {
+      handleBreadcrumbNavigation('This PC');
+      return;
+    }
+    
+    // Check if parent path is in history
+    const parentPathIndex = navigationHistory.findIndex(entry => entry.path === parentPath);
+    
+    if (parentPathIndex >= 0) {
+      // If parent path is in history, use that entry
+      console.log('Parent path found in history at index:', parentPathIndex);
+      const historyEntry = navigationHistory[parentPathIndex];
+      
+      setCurrentPath(historyEntry.path);
+      setCurrentItems(historyEntry.items);
+      setCurrentHistoryIndex(parentPathIndex);
+      setCurrentTitle(historyEntry.title);
+      
+      // Update window content
+      updateWindowContent(id, historyEntry.title, historyEntry.path, historyEntry.items);
+      return;
+    }
+    
+    // If not in history, navigate to parent path with generated items
+    const newTitle = parentPathParts[parentPathParts.length - 1];
+    navigateToPath(parentPath, undefined, newTitle);
+  };
+
   return (
     <>
       <Window
@@ -973,7 +1114,10 @@ export const FolderWindow = memo(({
                     {drives.map(item => (
                       <div
                         key={item.id}
-                        className={`${styles.folderItem} ${selectedItem === item.id ? styles.selectedItem : ''}`}
+                        className={mergeClasses(
+                          styles.folderItem,
+                          selectedItem === item.id && styles.selectedItem
+                        )}
                         onClick={(e) => handleItemClick(item.id, e)}
                         onDoubleClick={() => handleItemDoubleClick(item)}
                         onContextMenu={(e) => handleContextMenu(e, item.id)}
@@ -996,7 +1140,10 @@ export const FolderWindow = memo(({
                     {folders.map(item => (
                       <div
                         key={item.id}
-                        className={`${styles.folderItem} ${selectedItem === item.id ? styles.selectedItem : ''}`}
+                        className={mergeClasses(
+                          styles.folderItem,
+                          selectedItem === item.id && styles.selectedItem
+                        )}
                         onClick={(e) => handleItemClick(item.id, e)}
                         onDoubleClick={() => handleItemDoubleClick(item)}
                         onContextMenu={(e) => handleContextMenu(e, item.id)}
@@ -1019,7 +1166,10 @@ export const FolderWindow = memo(({
                     {files.map(item => (
                       <div
                         key={item.id}
-                        className={`${styles.folderItem} ${selectedItem === item.id ? styles.selectedItem : ''}`}
+                        className={mergeClasses(
+                          styles.folderItem,
+                          selectedItem === item.id && styles.selectedItem
+                        )}
                         onClick={(e) => handleItemClick(item.id, e)}
                         onDoubleClick={() => handleItemDoubleClick(item)}
                         onContextMenu={(e) => handleContextMenu(e, item.id)}

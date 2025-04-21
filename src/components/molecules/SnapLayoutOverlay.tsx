@@ -1,4 +1,4 @@
-import { makeStyles, shorthands } from '@fluentui/react-components';
+import { makeStyles, shorthands, mergeClasses } from '@fluentui/react-components';
 import { memo, useEffect, useState } from 'react';
 import { SnapRegion } from '../../contexts/WindowContext';
 
@@ -170,14 +170,20 @@ export const SnapLayoutOverlay = memo(({ isVisible, onSnapSelect }: SnapLayoutOv
   
   return (
     <div 
-      className={`${styles.overlay} ${isVisible ? styles.visible : ''}`}
+      className={mergeClasses(
+        styles.overlay,
+        isVisible && styles.visible
+      )}
       onClick={() => onSnapSelect(SnapRegion.NONE)}
     >
       <div className={styles.layoutGrid} onClick={(e) => e.stopPropagation()}>
         {layoutTypes[activeLayout].map((option) => (
           <div 
             key={option.region}
-            className={`${styles.layoutOption} ${styles[option.className as keyof typeof styles]}`}
+            className={mergeClasses(
+              styles.layoutOption,
+              styles[option.className as keyof typeof styles]
+            )}
             onClick={() => onSnapSelect(option.region)}
           >
             {option.label}

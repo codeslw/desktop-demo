@@ -1,4 +1,4 @@
-import { makeStyles, shorthands } from '@fluentui/react-components';
+import { makeStyles, shorthands, mergeClasses } from '@fluentui/react-components';
 import { memo } from 'react';
 import { FolderItem } from '../windows/FolderWindow';
 
@@ -64,7 +64,10 @@ export const FileItem = memo(({
   
   return (
     <div 
-      className={`${styles.folderItem} ${isSelected ? styles.selectedItem : ''}`}
+      className={mergeClasses(
+        styles.folderItem,
+        isSelected && styles.selectedItem
+      )}
       onClick={onClick}
       onDoubleClick={onDoubleClick}
       onContextMenu={onContextMenu}

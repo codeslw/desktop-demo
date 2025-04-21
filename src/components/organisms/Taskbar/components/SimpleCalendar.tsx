@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useCalendarStyles } from '../styles';
+import { makeStyles, shorthands, mergeClasses } from '@fluentui/react-components';
 
 // Define props for the simple calendar
 interface SimpleCalendarProps {
@@ -59,7 +60,11 @@ export const SimpleCalendar: React.FC<SimpleCalendarProps> = ({
             days.push(
                 <div 
                     key={`day-${i}`}
-                    className={`${styles.calendarDay} ${isToday ? styles.today : ''} ${isSelected ? styles.selected : ''}`}
+                    className={mergeClasses(
+                        styles.calendarDay,
+                        isToday && styles.today,
+                        isSelected && styles.selected
+                    )}
                     onClick={() => onSelectionChange(date)}
                 >
                     {i}

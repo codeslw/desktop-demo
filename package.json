@@ -10,10 +10,15 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.7.0",
     "@fluentui/react": "^8.110.0",
     "@fluentui/react-calendar-compat": "^0.2.5",
     "@fluentui/react-components": "^9.62.0",
     "@fluentui/react-icons": "^2.0.297",
+    "ag-grid-community": "^33.2.4",
+    "ag-grid-react": "^33.2.4",
+    "date-fns": "^4.1.0",
+    "lucide-react": "^0.501.0",
     "react": "^19.1.0",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",

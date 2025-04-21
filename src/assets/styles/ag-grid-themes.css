@@ -1,0 +1,123 @@
+/* AG-Grid Custom Themes */
+
+/* Light Theme */
+.ag-theme-quartz {
+  --ag-background-color: #ffffff;
+  --ag-header-background-color: #f8f8f8;
+  --ag-odd-row-background-color: #f8f8f8;
+  --ag-header-foreground-color: #333333;
+  --ag-font-size: 13px;
+  --ag-font-family: 'Segoe UI', sans-serif;
+  --ag-border-color: #e0e0e0;
+  --ag-row-border-color: #f0f0f0;
+  --ag-cell-horizontal-padding: 12px;
+  --ag-header-height: 48px;
+  --ag-row-height: 40px;
+  --ag-selection-checkbox-size: 18px;
+  --ag-row-hover-color: rgba(33, 150, 243, 0.1);
+  --ag-selected-row-background-color: rgba(0, 120, 212, 0.1);
+  --ag-input-focus-border-color: #0078d4;
+  --ag-range-selection-border-color: #0078d4;
+  --ag-range-selection-background-color: rgba(0, 120, 212, 0.2);
+  --ag-checkbox-checked-color: #0078d4;
+  --ag-checkbox-unchecked-color: #757575;
+  --ag-checkbox-indeterminate-color: #0078d4;
+  --ag-alpine-active-color: #0078d4;
+  --ag-icon-color: #757575;
+  --ag-filter-tool-panel-group-indent: 16px;
+  background-color: var(--ag-background-color);
+  color: var(--ag-header-foreground-color);
+}
+
+/* Dark Theme */
+.ag-theme-quartz-dark {
+  --ag-background-color: #1e1e1e;
+  --ag-header-background-color: #323232;
+  --ag-odd-row-background-color: #2a2a2a;
+  --ag-header-foreground-color: #f0f0f0;
+  --ag-foreground-color: #d0d0d0;
+  --ag-font-size: 13px;
+  --ag-font-family: 'Segoe UI', sans-serif;
+  --ag-border-color: #494949;
+  --ag-row-border-color: #404040;
+  --ag-cell-horizontal-padding: 12px;
+  --ag-header-height: 48px;
+  --ag-row-height: 40px;
+  --ag-selection-checkbox-size: 18px;
+  --ag-row-hover-color: rgba(38, 160, 218, 0.2);
+  --ag-selected-row-background-color: rgba(0, 120, 212, 0.3);
+  --ag-input-focus-border-color: #0078d4;
+  --ag-range-selection-border-color: #0078d4;
+  --ag-range-selection-background-color: rgba(0, 120, 212, 0.4);
+  --ag-checkbox-checked-color: #0078d4;
+  --ag-checkbox-unchecked-color: #a0a0a0;
+  --ag-checkbox-indeterminate-color: #0078d4;
+  --ag-alpine-active-color: #0078d4;
+  --ag-icon-color: #a0a0a0;
+  --ag-filter-tool-panel-group-indent: 16px;
+  background-color: var(--ag-background-color);
+  color: var(--ag-foreground-color);
+}
+
+/* Custom grid styling */
+.ag-header-cell {
+  font-weight: 500;
+}
+
+.ag-header-cell-text {
+  font-weight: 500;
+}
+
+.ag-row:hover {
+  background-color: var(--ag-row-hover-color) !important;
+}
+
+.ag-row-selected {
+  background-color: var(--ag-selected-row-background-color) !important;
+}
+
+.ag-cell {
+  line-height: 40px;
+}
+
+.ag-cell-focus:not(.ag-cell-range-selected):focus-within {
+  border: 1px solid var(--ag-input-focus-border-color);
+}
+
+.ag-paging-panel {
+  padding: 8px 16px;
+  border-top: 1px solid var(--ag-border-color);
+}
+
+.ag-theme-quartz-dark .ag-header-cell,
+.ag-theme-quartz-dark .ag-header-group-cell {
+  background-color: var(--ag-header-background-color);
+  border-bottom: 1px solid var(--ag-border-color);
+}
+
+/* Pagination buttons */
+.ag-theme-quartz .ag-paging-button {
+  border: 1px solid var(--ag-border-color);
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  color: #333333;
+}
+
+.ag-theme-quartz-dark .ag-paging-button {
+  border: 1px solid var(--ag-border-color);
+  border-radius: 4px;
+  background-color: #2a2a2a;
+  color: #d0d0d0;
+}
+
+.ag-theme-quartz .ag-paging-button:hover,
+.ag-theme-quartz-dark .ag-paging-button:hover {
+  background-color: var(--ag-alpine-active-color);
+  color: white;
+}
+
+.ag-theme-quartz .ag-paging-button-wrapper.ag-disabled .ag-paging-button,
+.ag-theme-quartz-dark .ag-paging-button-wrapper.ag-disabled .ag-paging-button {
+  opacity: 0.5;
+  cursor: default;
+} 

@@ -1,8 +1,10 @@
 import { makeStyles, shorthands } from '@fluentui/react-components';
 import { memo } from 'react';
+import { Home24Regular } from '@fluentui/react-icons';
 
 interface PathBarProps {
   path: string;
+  onNavigate?: (path: string) => void;
 }
 
 const useStyles = makeStyles({
@@ -37,38 +39,70 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     ...shorthands.gap('4px'),
+    cursor: 'pointer',
+    ...shorthands.padding('2px', '6px'),
+    ...shorthands.borderRadius('4px'),
+    '&:hover': {
+      backgroundColor: 'var(--icon-hover-bg)',
+    },
   },
   pathSeparator: {
     ...shorthands.margin('0', '4px'),
     color: 'var(--text-color-secondary)',
+  },
+  homeIcon: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: 'var(--text-color)',
   }
 });
 
-export const PathBar = memo(({ path }: PathBarProps) => {
+export const PathBar = memo(({ path, onNavigate }: PathBarProps) => {
   const styles = useStyles();
   
   // Split path into parts to display with separators
   const pathParts = path.split('/').filter(part => part);
   
+  // Function to handle breadcrumb navigation
+  const handlePartClick = (index: number) => {
+    if (!onNavigate) return;
+    
+    if (index === -1) {
+      // Home/root navigation
+      onNavigate('This PC');
+      return;
+    }
+    
+    // Navigate to the path up to the clicked part
+    const targetPath = pathParts.slice(0, index + 1).join('/');
+    onNavigate(targetPath);
+  };
+  
   return (
     <div className={styles.addressBar}>
       <div className={styles.addressBarPath}>
-        <img 
-          src="/src/assets/icons/folders.svg" 
-          alt="Folder" 
-          className={styles.folderIcon} 
-        />
-        
-        {pathParts.length === 0 && (
-          <span>This PC</span>
-        )}
-        
-        {pathParts.map((part, index) => (
-          <span key={index} className={styles.pathPart}>
-            {index > 0 && <span className={styles.pathSeparator}>›</span>}
-            {part}
+        {/* Home icon for root */}
+        <div 
+          className={styles.pathPart} 
+          onClick={() => handlePartClick(-1)}
+          title="This PC"
+        >
+          <span className={styles.homeIcon}>
+            <Home24Regular />
           </span>
-        ))}
+        </div>
+        
+        {pathParts.length === 0 ? (
+          <span className={styles.pathSeparator}>This PC</span>
+        ) : (
+          pathParts.map((part, index) => (
+            <span key={index} className={styles.pathPart} onClick={() => handlePartClick(index)}>
+              {index > 0 && <span className={styles.pathSeparator}>›</span>}
+              {part}
+            </span>
+          ))
+        )}
       </div>
     </div>
   );

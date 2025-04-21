@@ -35,7 +35,7 @@ const useStyles = makeStyles({
     }
   },
   dragging: {
-    opacity: 0.6,
+    opacity: 0.99,
     zIndex: 10
   },
   text: {
@@ -44,7 +44,7 @@ const useStyles = makeStyles({
     fontSize: '13px',
     fontWeight: '400',
     ...shorthands.margin('8px', 0, 0),
-    textShadow: '0 0 3px rgba(0,0,0,0.7)',
+    // textShadow: '0 0 3px rgba(0,0,0,0.7)',
     maxWidth: '100%',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
@@ -112,6 +112,13 @@ export const DesktopIcon = memo(({ icon, onDrop }: DesktopIconProps) => {
     
     if (icon.id === 'thispc') {
       openWindow('thispc', 'This PC');
+    } else if (icon.id === 'report') {
+      openWindow('reports', 'Tax Reports', {
+        type: 'reports',
+        isMaximized: true
+      });
+    } else if (icon.id === 'settings') {
+      openWindow('settings', 'Settings');
     } else {
       console.log(`Open ${icon.name}`);
     }

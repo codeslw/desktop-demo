@@ -1,7 +1,8 @@
-import { makeStyles, shorthands } from '@fluentui/react-components';
+import { Button, makeStyles, shorthands } from '@fluentui/react-components';
 import { memo, useState, useRef, useEffect } from 'react';
 import { useWindowContext, SnapRegion } from '../../contexts/WindowContext';
 import { useTheme } from '../../contexts/ThemeContext';
+import { Maximize16Regular, Maximize20Regular } from '@fluentui/react-icons';
 
 interface WindowProps {
   id: string;
@@ -10,6 +11,7 @@ interface WindowProps {
   children: React.ReactNode;
   initialWidth?: number;
   initialHeight?: number;
+  isFullSize?: boolean;
 }
 
 const useStyles = makeStyles({
@@ -157,7 +159,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const Window = memo(({ id, title, icon, children, initialWidth, initialHeight }: WindowProps) => {
+export const Window = memo(({ id, title, icon, children, initialWidth, initialHeight, isFullSize }: WindowProps) => {
   const styles = useStyles();
   const { theme } = useTheme();
   const { 
@@ -207,16 +209,23 @@ export const Window = memo(({ id, title, icon, children, initialWidth, initialHe
   
   // Use initialWidth and initialHeight for window size if provided
   useEffect(() => {
-    if (windowState && initialWidth && initialHeight && !windowState.isMaximized) {
-      updateWindowPosition(
-        id,
-        windowState.position.x,
-        windowState.position.y,
-        initialWidth,
-        initialHeight
-      );
+    if (windowState && !windowState.isMaximized) {
+      if (initialWidth && initialHeight) {
+        updateWindowPosition(
+          id,
+          windowState.position.x,
+          windowState.position.y,
+          initialWidth,
+          initialHeight
+        );
+      }
+      
+      // Maximize the window if isFullSize is true
+      if (isFullSize) {
+        maximizeWindow(id);
+      }
     }
-  }, [id, initialWidth, initialHeight, updateWindowPosition, windowState]);
+  }, [id, initialWidth, initialHeight, updateWindowPosition, windowState, maximizeWindow, isFullSize]);
   
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -432,25 +441,25 @@ export const Window = memo(({ id, title, icon, children, initialWidth, initialHe
   };
   
   // Add mouseover handler for the maximize button to show snap layouts
-  const handleMaximizeButtonMouseOver = () => {
-    if (!windowState || windowState.isMinimized) return;
+  // const handleMaximizeButtonMouseOver = () => {
+  //   if (!windowState || windowState.isMinimized) return;
     
-    // Dispatch event to show snap layout
-    const event = new CustomEvent('window-snap-preview', { 
-      detail: { windowId: id, x: window.innerWidth / 2, y: 10 } 
-    });
-    window.dispatchEvent(event);
-  };
+  //   // Dispatch event to show snap layout
+  //   const event = new CustomEvent('window-snap-preview', { 
+  //     detail: { windowId: id, x: window.innerWidth / 2, y: 10 } 
+  //   });
+  //   window.dispatchEvent(event);
+  // };
 
-  const handleMaximizeButtonMouseOut = () => {
-    if (!windowState) return;
+  // const handleMaximizeButtonMouseOut = () => {
+  //   if (!windowState) return;
     
-    // Dispatch event to hide snap layout
-    const event = new CustomEvent('window-snap-preview-end', { 
-      detail: { windowId: id } 
-    });
-    window.dispatchEvent(event);
-  };
+  //   // Dispatch event to hide snap layout
+  //   const event = new CustomEvent('window-snap-preview-end', { 
+  //     detail: { windowId: id } 
+  //   });
+  //   window.dispatchEvent(event);
+  // };
   
   // Handle resize from window edges
   const handleResizeStart = (e: React.MouseEvent, direction: string) => {
@@ -496,29 +505,33 @@ export const Window = memo(({ id, title, icon, children, initialWidth, initialHe
           <span className={styles.windowTitle}>{title}</span>
         </div>
         <div className={styles.windowControls}>
-          <button 
+          <Button 
             className={styles.windowButton} 
             onClick={() => minimizeWindow(id)}
             aria-label="Minimize"
           >
             <span>_</span>
-          </button>
-          <button 
+          </Button>
+          <Button 
             className={styles.windowButton}
             onClick={handleMaximizeClick}
             aria-label={windowState.isMaximized ? "Restore" : "Maximize"}
-            onMouseOver={handleMaximizeButtonMouseOver}
-            onMouseOut={handleMaximizeButtonMouseOut}
+            // onMouseOver={handleMaximizeButtonMouseOver}
+            // onMouseOut={handleMaximizeButtonMouseOut}
           >
-            <span>□</span>
-          </button>
-          <button 
+            <span>
+            <Maximize16Regular/>
+            </span>
+          </Button>
+          <Button
             className={`${styles.windowButton} ${styles.closeButton}`}
             onClick={() => closeWindow(id)}
             aria-label="Close"
           >
-            <span>×</span>
-          </button>
+            <span>
+              X
+            </span>
+          </Button>
         </div>
       </div>
       <div className={styles.windowContent}>

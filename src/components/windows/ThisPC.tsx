@@ -1,72 +1,14 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { FolderWindow, FolderItem } from './FolderWindow';
 import { useWindowContext } from '../../contexts/WindowContext';
+import { DEFAULT_WINDOW_ITEMS } from '../../utils/constants';
 
 export const ThisPC = memo(() => {
   const { openWindow, updateWindowContent } = useWindowContext();
+  const [currentWindowItems, setCurrentWindowItems] = useState(DEFAULT_WINDOW_ITEMS);
   
   // Define drives and folders for This PC
-  const items: FolderItem[] = [
-    // Drives
-    { 
-      id: 'c-drive', 
-      name: 'Local Disk (C:)', 
-      type: 'drive', 
-      icon: '/src/assets/icons/thispc.svg', 
-      size: '120 GB free of 500 GB' 
-    },
-    { 
-      id: 'd-drive', 
-      name: 'Data (D:)', 
-      type: 'drive', 
-      icon: '/src/assets/icons/thispc.svg', 
-      size: '350 GB free of 1 TB' 
-    },
-    
-    // Folders
-    { 
-      id: 'desktop', 
-      name: 'Desktop', 
-      type: 'folder', 
-      icon: '/src/assets/icons/folders.svg', 
-      location: 'This PC'
-    },
-    { 
-      id: 'documents', 
-      name: 'Documents', 
-      type: 'folder', 
-      icon: '/src/assets/icons/folders.svg', 
-      location: 'This PC'
-    },
-    { 
-      id: 'downloads', 
-      name: 'Downloads', 
-      type: 'folder', 
-      icon: '/src/assets/icons/folders.svg', 
-      location: 'This PC'
-    },
-    { 
-      id: 'music', 
-      name: 'Music', 
-      type: 'folder', 
-      icon: '/src/assets/icons/folders.svg', 
-      location: 'This PC'
-    },
-    { 
-      id: 'pictures', 
-      name: 'Pictures', 
-      type: 'folder', 
-      icon: '/src/assets/icons/folders.svg', 
-      location: 'This PC'
-    },
-    { 
-      id: 'videos', 
-      name: 'Videos', 
-      type: 'folder', 
-      icon: '/src/assets/icons/folders.svg', 
-      location: 'This PC'
-    }
-  ];
+
   
   // Handler for opening folders
   const handleOpenFolder = (folderId: string, path: string) => {
@@ -98,6 +40,7 @@ export const ThisPC = memo(() => {
           icon: '/src/assets/icons/folders.svg'
         }
       ];
+      setCurrentWindowItems(folderItems)
     } else if (folderId === 'pictures') {
       folderItems = [
         { 
@@ -115,6 +58,8 @@ export const ThisPC = memo(() => {
           dateModified: 'May 10, 2023'
         }
       ];
+      setCurrentWindowItems(folderItems)
+
     } else if (folderId === 'desktop') {
       folderItems = [
         { 
@@ -125,6 +70,8 @@ export const ThisPC = memo(() => {
           dateModified: 'Yesterday, 9:30 AM'
         }
       ];
+      setCurrentWindowItems(folderItems)
+
     } else if (folderId === 'downloads') {
       folderItems = [
         { 
@@ -142,6 +89,8 @@ export const ThisPC = memo(() => {
           dateModified: 'Yesterday, 3:45 PM'
         }
       ];
+      setCurrentWindowItems(folderItems)
+
     } else if (folderId === 'music') {
       folderItems = [
         { 
@@ -152,6 +101,8 @@ export const ThisPC = memo(() => {
           dateModified: 'Last month'
         }
       ];
+      setCurrentWindowItems(folderItems)
+
     } else if (folderId === 'videos') {
       folderItems = [
         { 
@@ -162,6 +113,8 @@ export const ThisPC = memo(() => {
           dateModified: '2 days ago'
         }
       ];
+      setCurrentWindowItems(folderItems)
+
     } else if (folderId.includes('drive')) {
       // Sample content for drive
       folderItems = [
@@ -184,6 +137,8 @@ export const ThisPC = memo(() => {
           icon: '/src/assets/icons/folders.svg'
         }
       ];
+      setCurrentWindowItems(folderItems)
+
     }
     
     // Update the current window with new folder contents
@@ -236,6 +191,8 @@ export const ThisPC = memo(() => {
           icon: '/src/assets/icons/folders.svg'
         }
       ];
+      setCurrentWindowItems(folderItems)
+
     } else if (folderId === 'pictures') {
       folderItems = [
         { 
@@ -253,6 +210,8 @@ export const ThisPC = memo(() => {
           dateModified: 'May 10, 2023'
         }
       ];
+      setCurrentWindowItems(folderItems)
+
     } else if (folderId === 'desktop') {
       folderItems = [
         { 
@@ -263,6 +222,8 @@ export const ThisPC = memo(() => {
           dateModified: 'Yesterday, 9:30 AM'
         }
       ];
+      setCurrentWindowItems(folderItems)
+
     } else if (folderId === 'downloads') {
       folderItems = [
         { 
@@ -280,6 +241,8 @@ export const ThisPC = memo(() => {
           dateModified: 'Yesterday, 3:45 PM'
         }
       ];
+      setCurrentWindowItems(folderItems)
+
     } else if (folderId === 'music') {
       folderItems = [
         { 
@@ -290,6 +253,8 @@ export const ThisPC = memo(() => {
           dateModified: 'Last month'
         }
       ];
+      setCurrentWindowItems(folderItems)
+
     } else if (folderId === 'videos') {
       folderItems = [
         { 
@@ -300,6 +265,8 @@ export const ThisPC = memo(() => {
           dateModified: '2 days ago'
         }
       ];
+      setCurrentWindowItems(folderItems)
+
     } else if (folderId.includes('drive')) {
       // Sample content for drive
       folderItems = [
@@ -322,6 +289,7 @@ export const ThisPC = memo(() => {
           icon: '/src/assets/icons/folders.svg'
         }
       ];
+      setCurrentWindowItems(folderItems)
     }
     
     return folderItems;
@@ -333,7 +301,7 @@ export const ThisPC = memo(() => {
       title="This PC"
       icon="/src/assets/icons/thispc.svg"
       path="This PC"
-      items={items}
+      items={currentWindowItems}
       initialWidth={900}
       initialHeight={650}
       onOpenFolder={handleOpenFolder}

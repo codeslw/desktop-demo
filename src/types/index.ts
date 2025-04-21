@@ -12,3 +12,11 @@ export interface DesktopIcon {
     icons: DesktopIcon[];
     wallpaper: string;
   }
+
+  export interface WindowProps {
+    onClose: () => void;
+    onMinimize: () => void;
+    onMaximize: () => void;
+    isMaximized: boolean;
+  }
+  

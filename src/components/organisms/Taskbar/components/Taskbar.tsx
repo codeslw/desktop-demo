@@ -162,17 +162,17 @@ export const Taskbar = memo(() => {
                         onClick={toggleActionCenter}
                     >
                         <TaskbarButton
-                            icon="/src/assets/icons/wifi.svg"
+                            icon="/src/assets/images/wifi.svg"
                             alt="WiFi"
                             size='small'
                         />
                         <TaskbarButton
-                            icon="/src/assets/icons/volume.svg"
+                            icon="/src/assets/images/volume.svg"
                             alt="Volume"
                             size='small'
                         />
                         <TaskbarButton
-                            icon="/src/assets/icons/battery.svg"
+                            icon="/src/assets/images/battery.svg"
                             alt="Battery"
                             size='small'
                         />

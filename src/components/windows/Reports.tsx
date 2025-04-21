@@ -866,7 +866,7 @@ export const Reports = memo(() => {
       title="Tax Reports"
       initialWidth={1200}
       initialHeight={800}
-      icon="/src/assets/icons/report.svg"
+      icon="/src/assets/images/report.svg"
       isFullSize={true}
     >
       <div className={styles.container}>

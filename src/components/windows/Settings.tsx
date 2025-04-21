@@ -334,7 +334,7 @@ export const Settings = memo(() => {
     <Window
       id="settings"
       title="Settings"
-      icon="/src/assets/icons/settings.svg"
+      icon="/src/assets/images/settings.svg"
       initialWidth={1000}
       initialHeight={700}
     >

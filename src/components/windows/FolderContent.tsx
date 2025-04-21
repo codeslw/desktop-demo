@@ -27,19 +27,19 @@ export const FolderContent = memo(({ id }: FolderContentProps) => {
           id: 'project1', 
           name: 'Project A', 
           type: 'folder', 
-          icon: '/src/assets/icons/folders.svg'
+          icon: '/src/assets/images/folders.svg'
         },
         { 
           id: 'project2', 
           name: 'Project B', 
           type: 'folder', 
-          icon: '/src/assets/icons/folders.svg'
+          icon: '/src/assets/images/folders.svg'
         },
         { 
           id: 'readme', 
           name: 'README.md', 
           type: 'file', 
-          icon: '/src/assets/icons/word.svg',
+          icon: '/src/assets/images/word.svg',
           dateModified: 'Today, 10:30 AM'
         }
       ];
@@ -49,19 +49,19 @@ export const FolderContent = memo(({ id }: FolderContentProps) => {
           id: 'user1', 
           name: 'Administrator', 
           type: 'folder', 
-          icon: '/src/assets/icons/folders.svg'
+          icon: '/src/assets/images/folders.svg'
         },
         { 
           id: 'user2', 
           name: 'Public', 
           type: 'folder', 
-          icon: '/src/assets/icons/folders.svg'
+          icon: '/src/assets/images/folders.svg'
         },
         { 
           id: 'user3', 
           name: 'User', 
           type: 'folder', 
-          icon: '/src/assets/icons/folders.svg'
+          icon: '/src/assets/images/folders.svg'
         }
       ];
     } else if (path.includes('Program Files')) {
@@ -70,13 +70,13 @@ export const FolderContent = memo(({ id }: FolderContentProps) => {
           id: 'app1', 
           name: 'Microsoft', 
           type: 'folder', 
-          icon: '/src/assets/icons/folders.svg'
+          icon: '/src/assets/images/folders.svg'
         },
         { 
           id: 'app2', 
           name: 'Windows Defender', 
           type: 'folder', 
-          icon: '/src/assets/icons/folders.svg'
+          icon: '/src/assets/images/folders.svg'
         }
       ];
     } else {
@@ -86,13 +86,13 @@ export const FolderContent = memo(({ id }: FolderContentProps) => {
           id: 'sample-folder', 
           name: 'Sample Folder', 
           type: 'folder', 
-          icon: '/src/assets/icons/folders.svg'
+          icon: '/src/assets/images/folders.svg'
         },
         { 
           id: 'sample-file', 
           name: 'Sample File.txt', 
           type: 'file', 
-          icon: '/src/assets/icons/word.svg',
+          icon: '/src/assets/images/word.svg',
           dateModified: 'Just now'
         }
       ];
@@ -119,7 +119,7 @@ export const FolderContent = memo(({ id }: FolderContentProps) => {
     <FolderWindow
       id={id}
       title={windowData.title}
-      icon="/src/assets/icons/folders.svg"
+      icon="/src/assets/images/folders.svg"
       path={windowData.path || ''}
       items={windowData.folderItems || []}
       initialWidth={900}

@@ -179,18 +179,18 @@ export const StartMenu = memo(({ onClose }: StartMenuProps) => {
   }, [onClose]);
 
   const pinnedApps = [
-    { id: 'edge', name: 'Microsoft Edge', icon: '/src/assets/icons/edge.svg' },
-    { id: 'word', name: 'Word', icon: '/src/assets/icons/word.svg' },
-    { id: 'powerpoint', name: 'PowerPoint', icon: '/src/assets/icons/power-point.svg' },
-    { id: 'folders', name: 'File Explorer', icon: '/src/assets/icons/folders.svg' },
-    { id: 'outlook', name: 'Outlook', icon: '/src/assets/icons/outlook.svg' },
-    { id: 'store', name: 'Microsoft Store', icon: '/src/assets/icons/store.svg' },
-    { id: 'photos', name: 'Photos', icon: '/src/assets/icons/pictures.svg' },
-    { id: 'settings', name: 'Settings', icon: '/src/assets/icons/settings.svg' },
-    { id: 'calculator', name: 'Calculator', icon: '/src/assets/icons/calculator.svg' },
-    { id: 'spotify', name: 'Spotify', icon: '/src/assets/icons/spotify.svg' },
-    { id: 'xbox', name: 'Xbox', icon: '/src/assets/icons/xbox.svg' },
-    { id: 'notepad', name: 'Notepad', icon: '/src/assets/icons/notepad.svg' }
+    { id: 'edge', name: 'Microsoft Edge', icon: '/src/assets/images/edge.svg' },
+    { id: 'word', name: 'Word', icon: '/src/assets/images/word.svg' },
+    { id: 'powerpoint', name: 'PowerPoint', icon: '/src/assets/images/power-point.svg' },
+    { id: 'folders', name: 'File Explorer', icon: '/src/assets/images/folders.svg' },
+    { id: 'outlook', name: 'Outlook', icon: '/src/assets/images/outlook.svg' },
+    { id: 'store', name: 'Microsoft Store', icon: '/src/assets/images/store.svg' },
+    { id: 'photos', name: 'Photos', icon: '/src/assets/images/pictures.svg' },
+    { id: 'settings', name: 'Settings', icon: '/src/assets/images/settings.svg' },
+    { id: 'calculator', name: 'Calculator', icon: '/src/assets/images/calculator.svg' },
+    { id: 'spotify', name: 'Spotify', icon: '/src/assets/images/spotify.svg' },
+    { id: 'xbox', name: 'Xbox', icon: '/src/assets/images/xbox.svg' },
+    { id: 'notepad', name: 'Notepad', icon: '/src/assets/images/notepad.svg' }
   ];
 
   const filteredApps = pinnedApps.filter(app => 
@@ -241,7 +241,7 @@ export const StartMenu = memo(({ onClose }: StartMenuProps) => {
                     <Text className={styles.searchCategoryTitle}>Documents</Text>
                     <div className={styles.searchResult}>
                       <div className={styles.searchResultLeft}>
-                        <img src="/src/assets/icons/word.svg" alt="Document" className={styles.searchResultIcon} />
+                        <img src="/src/assets/images/word.svg" alt="Document" className={styles.searchResultIcon} />
                         <span className={styles.searchResultText}>Recent {searchQuery} document.docx</span>
                       </div>
                       <ChevronRightRegular className={styles.searchResultChevron} />
@@ -252,7 +252,7 @@ export const StartMenu = memo(({ onClose }: StartMenuProps) => {
                     <Text className={styles.searchCategoryTitle}>Web Results</Text>
                     <div className={styles.searchResult}>
                       <div className={styles.searchResultLeft}>
-                        <img src="/src/assets/icons/edge.svg" alt="Edge" className={styles.searchResultIcon} />
+                        <img src="/src/assets/images/edge.svg" alt="Edge" className={styles.searchResultIcon} />
                         <span className={styles.searchResultText}>Search the web for "{searchQuery}"</span>
                       </div>
                       <ChevronRightRegular className={styles.searchResultChevron} />

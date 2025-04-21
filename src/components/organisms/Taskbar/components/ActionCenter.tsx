@@ -112,42 +112,42 @@ export const ActionCenter: React.FC<ActionCenterProps> = ({
     const quickActions = [
         {
             id: 'wifi',
-            icon: '/src/assets/icons/wifi.svg',
+            icon: '/src/assets/images/wifi.svg',
             label: 'Figma',
             active: wifiEnabled,
             onClick: () => toggleQuickAction('wifi')
         },
         {
             id: 'bluetooth',
-            icon: '/src/assets/icons/bluetooth.svg',
+            icon: '/src/assets/images/bluetooth.svg',
             label: 'Bluetooth',
             active: bluetoothEnabled,
             onClick: () => toggleQuickAction('bluetooth')
         },
         {
             id: 'airplane',
-            icon: '/src/assets/icons/airplane.svg',
+            icon: '/src/assets/images/airplane.svg',
             label: 'Airplane mode',
             active: airplaneMode,
             onClick: () => toggleQuickAction('airplane')
         },
         {
             id: 'batteryLevel',
-            icon: '/src/assets/icons/battery-saver.svg',
+            icon: '/src/assets/images/battery-saver.svg',
             label: 'Battery saver',
             active: batteryLevelOn,
             onClick: () => toggleQuickAction('batteryLevel')
         },
         {
             id: 'darkMode',
-            icon: '/src/assets/icons/moon.svg',
+            icon: '/src/assets/images/moon.svg',
             label: 'Dark Mode',
             active: darkModeEnabled,
             onClick: toggleTheme
         },
         {
             id: 'accessibility',
-            icon: '/src/assets/icons/happy-person.svg',
+            icon: '/src/assets/images/happy-person.svg',
             label: 'Accessibility',
             active: accessibilityEnabled,
             onClick: () => toggleQuickAction('accessibility')
@@ -189,7 +189,7 @@ export const ActionCenter: React.FC<ActionCenterProps> = ({
                 <div className={styles.sliderRow}>
                     <div className={styles.sliderIcon}>
                         <img 
-                            src="/src/assets/icons/volume.svg" 
+                            src="/src/assets/images/volume.svg" 
                             alt="Volume"
                             width="16"
                             height="16"
@@ -207,7 +207,7 @@ export const ActionCenter: React.FC<ActionCenterProps> = ({
                     </div>
                     {/* <div className={styles.sliderArrow}>
                         <img 
-                            src="/src/assets/icons/chevron-top.svg" 
+                            src="/src/assets/images/chevron-top.svg" 
                             alt="More"
                             style={{ 
                                 transform: 'rotate(90deg)', 
@@ -223,7 +223,7 @@ export const ActionCenter: React.FC<ActionCenterProps> = ({
                 <div className={styles.sliderRow}>
                     <div className={styles.sliderIcon}>
                         <img 
-                            src="/src/assets/icons/sun.svg" 
+                            src="/src/assets/images/sun.svg" 
                             alt="Brightness"
                             width="22"
                             height="22"
@@ -248,7 +248,7 @@ export const ActionCenter: React.FC<ActionCenterProps> = ({
             <div className={styles.batteryInfo} style={{borderTop: isDark ? '1px solid #333333' : '1px solid #e6e6e6'}}>
                 <div className={styles.batteryIcon}>
                     <img 
-                        src="/src/assets/icons/battery.svg" 
+                        src="/src/assets/images/battery.svg" 
                         alt="Battery"
                         width="20"
                         height="20"
@@ -260,7 +260,7 @@ export const ActionCenter: React.FC<ActionCenterProps> = ({
                 </div>
                 <div className={styles.editButton}>
                     <img 
-                        src="/src/assets/icons/pencil.svg" 
+                        src="/src/assets/images/pencil.svg" 
                         alt="Edit"
                         width="18"
                         height="18"
@@ -269,7 +269,7 @@ export const ActionCenter: React.FC<ActionCenterProps> = ({
                 </div>
                 <div className={styles.settingsButton}>
                     <img 
-                        src="/src/assets/icons/settings.svg" 
+                        src="/src/assets/images/settings.svg" 
                         alt="Settings"
                         width="18"
                         height="18"

@@ -1,11 +1,11 @@
 // Define the app icons for the taskbar
 export const taskbarApps = [
-    { id: 'start', icon: '/src/assets/images/start.svg', alt: 'Start Menu' },
-    { id: 'search', icon: '/src/assets/images/search-taskbar.svg', alt: 'Search' },
-    { id: 'explorer', icon: '/src/assets/images/file-explorer.svg', alt: 'File Explorer' },
-    { id: 'edge', icon: '/src/assets/images/edge.svg', alt: 'Microsoft Edge' },
-    { id: 'store', icon: '/src/assets/images/store.svg', alt: 'Microsoft Store' },
-    { id: 'settings', icon: '/src/assets/images/settings.svg', alt: 'Settings' }
+    { id: 'start', icon: '/start.svg', alt: 'Start Menu' },
+    { id: 'search', icon: '/search-taskbar.svg', alt: 'Search' },
+    { id: 'explorer', icon: '/file-explorer.svg', alt: 'File Explorer' },
+    { id: 'edge', icon: '/edge.svg', alt: 'Microsoft Edge' },
+    { id: 'store', icon: '/store.svg', alt: 'Microsoft Store' },
+    { id: 'settings', icon: '/settings.svg', alt: 'Settings' }
 ];
 
 // Define quick action data
@@ -23,56 +23,56 @@ export const getQuickActions = (
 ) => [
     {
         id: 'wifi',
-        icon: '/src/assets/images/wifi.svg',
+        icon: '/wifi.svg',
         label: 'WiFi',
         active: wifiEnabled,
         onClick: () => toggleQuickAction('wifi')
     },
     {
         id: 'bluetooth',
-        icon: '/src/assets/images/bluetooth.svg',
+        icon: '/bluetooth.svg',
         label: 'Bluetooth',
         active: bluetoothEnabled,
         onClick: () => toggleQuickAction('bluetooth')
     },
     {
         id: 'airplane',
-        icon: '/src/assets/images/airplane.svg',
+        icon: '/airplane.svg',
         label: 'Airplane mode',
         active: airplaneMode,
         onClick: () => toggleQuickAction('airplane')
     },
     {
         id: 'theme',
-        icon: theme === 'dark' ? '/src/assets/images/moon.svg' : '/src/assets/images/sun.svg',
+        icon: theme === 'dark' ? '/moon.svg' : '/sun.svg',
         label: theme === 'dark' ? 'Light theme' : 'Dark theme',
         active: theme === 'dark',
         onClick: toggleTheme
     },
     {
         id: 'cast',
-        icon: '/src/assets/images/desktop-manager.svg',
+        icon: '/desktop-manager.svg',
         label: 'Cast',
         active: castEnabled,
         onClick: () => toggleQuickAction('cast')
     },
     {
         id: 'accessibility',
-        icon: '/src/assets/images/happy-person.svg',
+        icon: '/happy-person.svg',
         label: 'Accessibility',
         active: accessibilityEnabled,
         onClick: () => toggleQuickAction('accessibility')
     },
     {
         id: 'nightMode',
-        icon: '/src/assets/images/moon.svg',
+        icon: '/moon.svg',
         label: 'Night light',
         active: nightMode,
         onClick: () => toggleQuickAction('nightMode')
     },
     {
         id: 'batteryMode',
-        icon: '/src/assets/images/battery-saver.svg',
+        icon: '/battery-saver.svg',
         label: 'Battery saver',
         active: focusMode,
         onClick: () => toggleQuickAction('focus')

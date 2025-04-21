@@ -4,7 +4,7 @@
   --menu-bg: #444444FE;
   --popover-bg: rgba(32, 32, 32, 0.85);
   --taskbar-backdrop-filter: blur(35px);
-  --wallpaper: url('../images/wallpaper-dark.png');
+  --wallpaper: url('/wallpaper-dark.png');
   --text-color: #FFFFFF;
   --text-color-secondary: rgba(255, 255, 255, 0.78);
   --icon-hover-bg: rgba(255, 255, 255, 0.1);
@@ -39,7 +39,7 @@
   --menu-bg: #CAD4E7;
   --popover-bg: rgba(255, 255, 255, 0.85);
   --taskbar-backdrop-filter: none;
-  --wallpaper: url('../images/wallpaper-light.png');
+  --wallpaper: url('/wallpaper-light.png');
   --text-color: rgba(0, 0, 0, 0.89);
   --text-color-secondary: rgba(0, 0, 0, 0.64);
   --icon-hover-bg: rgba(0, 0, 0, 0.05);

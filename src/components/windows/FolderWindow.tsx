@@ -120,7 +120,7 @@ const Sidebar = memo(({
           )}
           onClick={() => onNavigate?.('This PC')}
         >
-          <img src="/src/assets/images/thispc.svg" alt="This PC" className={styles.navIcon} />
+          <img src="/thispc.svg" alt="This PC" className={styles.navIcon} />
           <span>This PC</span>
         </div>
         <div
@@ -130,7 +130,7 @@ const Sidebar = memo(({
           )}
           onClick={() => onNavigate?.('Desktop')}
         >
-          <img src="/src/assets/images/folders.svg" alt="Desktop" className={styles.navIcon} />
+          <img src="/folders.svg" alt="Desktop" className={styles.navIcon} />
           <span>Desktop</span>
         </div>
         <div
@@ -140,7 +140,7 @@ const Sidebar = memo(({
           )}
           onClick={() => onNavigate?.('Documents')}
         >
-          <img src="/src/assets/images/folders.svg" alt="Documents" className={styles.navIcon} />
+          <img src="/folders.svg" alt="Documents" className={styles.navIcon} />
           <span>Documents</span>
         </div>
         <div
@@ -150,7 +150,7 @@ const Sidebar = memo(({
           )}
           onClick={() => onNavigate?.('Downloads')}
         >
-          <img src="/src/assets/images/folders.svg" alt="Downloads" className={styles.navIcon} />
+          <img src="/folders.svg" alt="Downloads" className={styles.navIcon} />
           <span>Downloads</span>
         </div>
       </div>
@@ -542,20 +542,20 @@ export const FolderWindow = memo(({
           id: 'drive-c',
           name: 'Local Disk (C:)',
           type: 'drive',
-          icon: '/src/assets/images/ssd.svg',
+          icon: '/ssd.svg',
           size: '120 GB free of 500 GB'
         },
         {
           id: 'documents',
           name: 'Documents',
           type: 'folder',
-          icon: '/src/assets/images/folders.svg'
+          icon: '/folders.svg'
         },
         {
           id: 'downloads',
           name: 'Downloads',
           type: 'folder',
-          icon: '/src/assets/images/folders.svg'
+          icon: '/folders.svg'
         }
       ];
     } else {
@@ -565,13 +565,13 @@ export const FolderWindow = memo(({
           id: `${normalizedPath}-subfolder1`,
           name: 'Subfolder',
           type: 'folder',
-          icon: '/src/assets/images/folders.svg'
+          icon: '/folders.svg'
         },
         {
           id: `${normalizedPath}-file1`,
           name: 'Document.txt',
           type: 'file',
-          icon: '/src/assets/images/word.svg',
+          icon: '/word.svg',
           dateModified: 'Today'
         }
       ];
@@ -700,20 +700,20 @@ export const FolderWindow = memo(({
           id: 'drive-c',
           name: 'Local Disk (C:)',
           type: 'drive',
-          icon: '/src/assets/images/ssd.svg',
+          icon: '/ssd.svg',
           size: '120 GB free of 500 GB'
         },
         {
           id: 'documents',
           name: 'Documents',
           type: 'folder',
-          icon: '/src/assets/images/folders.svg'
+          icon: '/folders.svg'
         },
         {
           id: 'downloads',
           name: 'Downloads',
           type: 'folder',
-          icon: '/src/assets/images/folders.svg'
+          icon: '/folders.svg'
         }
       ];
       folderTitle = 'This PC';
@@ -727,13 +727,13 @@ export const FolderWindow = memo(({
           id: `${normalizedPath}-subfolder1`,
           name: 'Subfolder',
           type: 'folder',
-          icon: '/src/assets/images/folders.svg'
+          icon: '/folders.svg'
         },
         {
           id: `${normalizedPath}-file1`,
           name: 'Document.txt',
           type: 'file',
-          icon: '/src/assets/images/word.svg',
+          icon: '/word.svg',
           dateModified: 'Yesterday'
         }
       ];
@@ -805,13 +805,13 @@ export const FolderWindow = memo(({
           id: 'prog1',
           name: 'Microsoft',
           type: 'folder',
-          icon: '/src/assets/images/folders.svg'
+          icon: '/folders.svg'
         },
         {
           id: 'prog2',
           name: 'Common Files',
           type: 'folder',
-          icon: '/src/assets/images/folders.svg'
+          icon: '/folders.svg'
         }
       ];
     } else if (item.name.includes('Users')) {
@@ -820,13 +820,13 @@ export const FolderWindow = memo(({
           id: 'user1',
           name: 'Public',
           type: 'folder',
-          icon: '/src/assets/images/folders.svg'
+          icon: '/folders.svg'
         },
         {
           id: 'user2',
           name: 'User',
           type: 'folder',
-          icon: '/src/assets/images/folders.svg'
+          icon: '/folders.svg'
         }
       ];
     } else if (item.name.includes('Projects')) {
@@ -835,13 +835,13 @@ export const FolderWindow = memo(({
           id: 'proj1',
           name: 'Project1',
           type: 'folder',
-          icon: '/src/assets/images/folders.svg'
+          icon: '/folders.svg'
         },
         {
           id: 'proj2',
           name: 'README.md',
           type: 'file',
-          icon: '/src/assets/images/word.svg',
+          icon: '/word.svg',
           dateModified: 'Yesterday'
         }
       ];
@@ -852,13 +852,13 @@ export const FolderWindow = memo(({
           id: `${item.id}-subfolder1`,
           name: 'Subfolder',
           type: 'folder',
-          icon: '/src/assets/images/folders.svg'
+          icon: '/folders.svg'
         },
         {
           id: `${item.id}-file1`,
           name: 'Document.txt',
           type: 'file',
-          icon: '/src/assets/images/word.svg',
+          icon: '/word.svg',
           dateModified: 'Today'
         }
       ];

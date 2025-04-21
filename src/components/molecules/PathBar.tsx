@@ -113,7 +113,7 @@ export const PathBar = ({ path, onNavigate }: PathBarProps) => {
         )}
         onClick={() => handleClick(0)}
       >
-        <img src="/src/assets/images/thispc.svg" alt="This PC" className={styles.folderIcon} />
+        <img src="/thispc.svg" alt="This PC" className={styles.folderIcon} />
         {effectiveSegments[0]}
       </div>
       
@@ -135,7 +135,7 @@ export const PathBar = ({ path, onNavigate }: PathBarProps) => {
               )}
               onClick={() => handleClick(segmentIndex)}
             >
-              <img src="/src/assets/images/folders.svg" alt="Folder" className={styles.folderIcon} />
+              <img src="/folders.svg" alt="Folder" className={styles.folderIcon} />
               {segment}
             </div>
           </div>

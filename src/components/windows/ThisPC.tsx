@@ -23,21 +23,21 @@ export const ThisPC = memo(() => {
           id: 'document1', 
           name: 'Resume.docx', 
           type: 'file', 
-          icon: '/src/assets/images/word.svg',
+          icon: '/word.svg',
           dateModified: 'Yesterday, 2:30 PM'
         },
         { 
           id: 'document2', 
           name: 'Budget.xlsx', 
           type: 'file', 
-          icon: '/src/assets/images/xbox.svg',
+          icon: '/xbox.svg',
           dateModified: 'Last week'
         },
         { 
           id: 'document-subfolder', 
           name: 'Projects', 
           type: 'folder', 
-          icon: '/src/assets/images/folders.svg'
+          icon: '/folders.svg'
         }
       ];
       setCurrentWindowItems(folderItems)
@@ -47,14 +47,14 @@ export const ThisPC = memo(() => {
           id: 'picture1', 
           name: 'Vacation.jpg', 
           type: 'file', 
-          icon: '/src/assets/images/pictures.svg',
+          icon: '/pictures.svg',
           dateModified: 'June 15, 2023'
         },
         { 
           id: 'picture2', 
           name: 'Family.png', 
           type: 'file', 
-          icon: '/src/assets/images/pictures.svg',
+          icon: '/pictures.svg',
           dateModified: 'May 10, 2023'
         }
       ];
@@ -66,7 +66,7 @@ export const ThisPC = memo(() => {
           id: 'desktop-file1', 
           name: 'Shortcut.lnk', 
           type: 'file', 
-          icon: '/src/assets/images/word.svg',
+          icon: '/word.svg',
           dateModified: 'Yesterday, 9:30 AM'
         }
       ];
@@ -78,14 +78,14 @@ export const ThisPC = memo(() => {
           id: 'download1', 
           name: 'Setup.exe', 
           type: 'file', 
-          icon: '/src/assets/images/word.svg',
+          icon: '/word.svg',
           dateModified: 'Today, 11:30 AM'
         },
         { 
           id: 'download2', 
           name: 'Archive.zip', 
           type: 'file', 
-          icon: '/src/assets/images/word.svg',
+          icon: '/word.svg',
           dateModified: 'Yesterday, 3:45 PM'
         }
       ];
@@ -97,7 +97,7 @@ export const ThisPC = memo(() => {
           id: 'music1', 
           name: 'Song.mp3', 
           type: 'file', 
-          icon: '/src/assets/images/word.svg',
+          icon: '/word.svg',
           dateModified: 'Last month'
         }
       ];
@@ -109,7 +109,7 @@ export const ThisPC = memo(() => {
           id: 'video1', 
           name: 'Clip.mp4', 
           type: 'file', 
-          icon: '/src/assets/images/word.svg',
+          icon: '/word.svg',
           dateModified: '2 days ago'
         }
       ];
@@ -122,19 +122,19 @@ export const ThisPC = memo(() => {
           id: 'drive-folder1', 
           name: 'Program Files', 
           type: 'folder', 
-          icon: '/src/assets/images/folders.svg'
+          icon: '/folders.svg'
         },
         { 
           id: 'drive-folder2', 
           name: 'Users', 
           type: 'folder', 
-          icon: '/src/assets/images/folders.svg'
+          icon: '/folders.svg'
         },
         { 
           id: 'drive-folder3', 
           name: 'Windows', 
           type: 'folder', 
-          icon: '/src/assets/images/folders.svg'
+          icon: '/folders.svg'
         }
       ];
       setCurrentWindowItems(folderItems)
@@ -174,21 +174,21 @@ export const ThisPC = memo(() => {
           id: 'document1', 
           name: 'Resume.docx', 
           type: 'file', 
-          icon: '/src/assets/images/word.svg',
+          icon: '/word.svg',
           dateModified: 'Yesterday, 2:30 PM'
         },
         { 
           id: 'document2', 
           name: 'Budget.xlsx', 
           type: 'file', 
-          icon: '/src/assets/images/xbox.svg',
+          icon: '/xbox.svg',
           dateModified: 'Last week'
         },
         { 
           id: 'document-subfolder', 
           name: 'Projects', 
           type: 'folder', 
-          icon: '/src/assets/images/folders.svg'
+          icon: '/folders.svg'
         }
       ];
       setCurrentWindowItems(folderItems)
@@ -199,14 +199,14 @@ export const ThisPC = memo(() => {
           id: 'picture1', 
           name: 'Vacation.jpg', 
           type: 'file', 
-          icon: '/src/assets/images/pictures.svg',
+          icon: '/pictures.svg',
           dateModified: 'June 15, 2023'
         },
         { 
           id: 'picture2', 
           name: 'Family.png', 
           type: 'file', 
-          icon: '/src/assets/images/pictures.svg',
+          icon: '/pictures.svg',
           dateModified: 'May 10, 2023'
         }
       ];
@@ -218,7 +218,7 @@ export const ThisPC = memo(() => {
           id: 'desktop-file1', 
           name: 'Shortcut.lnk', 
           type: 'file', 
-          icon: '/src/assets/images/word.svg',
+          icon: '/word.svg',
           dateModified: 'Yesterday, 9:30 AM'
         }
       ];
@@ -230,14 +230,14 @@ export const ThisPC = memo(() => {
           id: 'download1', 
           name: 'Setup.exe', 
           type: 'file', 
-          icon: '/src/assets/images/word.svg',
+          icon: '/word.svg',
           dateModified: 'Today, 11:30 AM'
         },
         { 
           id: 'download2', 
           name: 'Archive.zip', 
           type: 'file', 
-          icon: '/src/assets/images/word.svg',
+          icon: '/word.svg',
           dateModified: 'Yesterday, 3:45 PM'
         }
       ];
@@ -249,7 +249,7 @@ export const ThisPC = memo(() => {
           id: 'music1', 
           name: 'Song.mp3', 
           type: 'file', 
-          icon: '/src/assets/images/word.svg',
+          icon: '/word.svg',
           dateModified: 'Last month'
         }
       ];
@@ -261,7 +261,7 @@ export const ThisPC = memo(() => {
           id: 'video1', 
           name: 'Clip.mp4', 
           type: 'file', 
-          icon: '/src/assets/images/word.svg',
+          icon: '/word.svg',
           dateModified: '2 days ago'
         }
       ];
@@ -274,19 +274,19 @@ export const ThisPC = memo(() => {
           id: 'drive-folder1', 
           name: 'Program Files', 
           type: 'folder', 
-          icon: '/src/assets/images/folders.svg'
+          icon: '/folders.svg'
         },
         { 
           id: 'drive-folder2', 
           name: 'Users', 
           type: 'folder', 
-          icon: '/src/assets/images/folders.svg'
+          icon: '/folders.svg'
         },
         { 
           id: 'drive-folder3', 
           name: 'Windows', 
           type: 'folder', 
-          icon: '/src/assets/images/folders.svg'
+          icon: '/folders.svg'
         }
       ];
       setCurrentWindowItems(folderItems)
@@ -299,7 +299,7 @@ export const ThisPC = memo(() => {
     <FolderWindow
       id="thispc"
       title="This PC"
-      icon="/src/assets/images/thispc.svg"
+      icon="/thispc.svg"
       path="This PC"
       items={currentWindowItems}
       initialWidth={900}

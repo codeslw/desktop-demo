@@ -3,13 +3,7 @@ import react from '@vitejs/plugin-react'
 import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
-  plugins: [react(), svgr({
-    include: '**/*.svg?react',
-    svgrOptions: {
-      ref: true,
-      titleProp: true,
-    },
-  })],
+  plugins: [react(), svgr()],
   css: {
     modules: {
       localsConvention: 'camelCaseOnly'
@@ -17,7 +11,7 @@ export default defineConfig({
   },
   build: {
     sourcemap: true,
-    assetsDir: 'src/assets',
+    // assetsDir: 'src/assets',
     minify: 'esbuild'
   },
   assetsInclude : ["**/*.png", "**/*.jpg", "**/*.jpeg", "**/*.gif", "**/*.svg", "**/*.webp"]

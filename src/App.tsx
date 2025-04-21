@@ -1,12 +1,15 @@
 import { Homescreen } from './components/templates/Homescreen';
 import './assets/styles/global.css';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { BrowserRouter } from 'react-router-dom';
 
 function App() {
   return (
-    <ThemeProvider>
-      <Homescreen />
-    </ThemeProvider>
+    <BrowserRouter>
+      <ThemeProvider>
+        <Homescreen />
+      </ThemeProvider>
+    </BrowserRouter>
   );
 }
 

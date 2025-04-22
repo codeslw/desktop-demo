@@ -7,20 +7,23 @@ export const INITIAL_DESKTOP_STATE: DesktopState = {
         id: 'thispc',
         name: 'This PC',
         icon: '/thispc.svg',
-        position: { x: 0, y: 0 }
+        x:0,
+        y:20
       },
       {
         id: 'report',
         name: 'Reports',
         icon: '/report.svg',
-        position: { x: 0, y: 100 }
+        x:0,
+        y:130
       },
       
       {
         id: 'settings',
         name: 'Settings',
         icon: '/settings.svg',
-        position: { x: 0, y: 200 }
+        x:0,
+        y:240
       },
     
     ],

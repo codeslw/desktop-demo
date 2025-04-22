@@ -2,10 +2,8 @@ export interface DesktopIcon {
     id: string;
     name: string;
     icon: string;
-    position: {
-      x: number;
-      y: number;
-    };
+    x: number;
+    y: number;
   }
   
   export interface DesktopState {

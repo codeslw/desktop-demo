@@ -139,6 +139,7 @@ export const WindowProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     });
   }, []);
 
+
   const closeWindow = useCallback((id: string) => {
     setWindows(prev => prev.filter(w => w.id !== id));
     navigate('/');
